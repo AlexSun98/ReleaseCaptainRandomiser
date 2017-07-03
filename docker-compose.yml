@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  releasecaptainrandomiser:
+    image: releasecaptainrandomiser
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
