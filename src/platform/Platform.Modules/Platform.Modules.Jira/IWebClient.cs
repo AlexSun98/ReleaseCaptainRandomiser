@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Platform.Modules.Jira
+{
+    /// <summary>
+    /// Abstracts a web client.
+    /// </summary>
+    public interface IWebClient
+    {
+        /// <summary>
+        /// Downloads a file from the server.
+        /// </summary>
+        Task DownloadAsync(string url, string fileName);
+
+        /// <summary>
+        /// Downloads a file from the server including authentication header.
+        /// </summary>
+        Task DownloadWithAuthenticationAsync(string url, string fileName);
+    }
+}

@@ -37,7 +37,7 @@
     <PackageReference Include="System.Net.Primitives" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Platform.Infrastructure\Platform.Infrastructure.csproj" />
+    <ProjectReference Include="..\platform\Platform.Infrastructure\Platform.Infrastructure.csproj" />
     <ProjectReference Include="..\platform\Platform.Models\Platform.Models.csproj" />
     <ProjectReference Include="..\platform\Platform.Repositories\Platform.Repositories.csproj" />
   </ItemGroup>
