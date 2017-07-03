@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Platform.Models\Platform.Models.csproj" />
     <ProjectReference Include="..\Platform.Repositories\Platform.Repositories.csproj" />
   </ItemGroup>
 

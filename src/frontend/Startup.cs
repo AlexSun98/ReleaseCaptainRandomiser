@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Platform.Infrastructure;
 using System;
 using Platform.Infrastructure.Helpers;
-using Platform;
+using Platform.Repositories;
 
 namespace ReleaseCaptainRandomiser
 {
@@ -124,6 +124,8 @@ namespace ReleaseCaptainRandomiser
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+
+            //var client = new JiraClient();
 
             try
             {

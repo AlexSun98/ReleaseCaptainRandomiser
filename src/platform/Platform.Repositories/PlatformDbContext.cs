@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Platform.Models;
 
-namespace Platform
+namespace Platform.Repositories
 {
     public class PlatformDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {

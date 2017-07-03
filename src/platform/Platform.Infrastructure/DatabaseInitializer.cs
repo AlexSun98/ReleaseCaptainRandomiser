@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Platform.Models;
+using Platform.Repositories;
 using System;
 using System.Threading.Tasks;
 
