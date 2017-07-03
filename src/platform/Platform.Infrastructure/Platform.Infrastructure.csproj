@@ -13,7 +13,6 @@
     <Folder Include="RestfulAPI\Jira\Domain\" />
     <Folder Include="RestfulAPI\Jira\Jql\" />
     <Folder Include="RestfulAPI\Jira\Util\" />
-    <Folder Include="RestfulAPI\Slack\" />
   </ItemGroup>
 
   <ItemGroup>

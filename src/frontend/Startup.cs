@@ -18,6 +18,7 @@ using Platform.Infrastructure.Helpers;
 using Platform.Repositories;
 using Platform.Infrastructure.RestfulAPI.Jira;
 using Platform.Infrastructure.RestfulAPI.Jira.Jql;
+using Platform.Infrastructure.RestfulAPI.Slack;
 //using Platform.Infrastructure.RestfulAPI.Jira;
 //using Platform.Infrastructure.RestfulAPI.Jira.Jql;
 
@@ -147,7 +148,7 @@ namespace ReleaseCaptainRandomiser
             var task = jiraClient.SearchClient.SearchIssues(jsb);
             var result = task.GetAwaiter().GetResult() as JqlSearchResult;
 
-
+            SlackClient.PostToSlack(result.issues[0].fields.assignee.name).Wait();
 
             try
             {
