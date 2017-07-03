@@ -16,6 +16,10 @@ using Platform.Infrastructure;
 using System;
 using Platform.Infrastructure.Helpers;
 using Platform.Repositories;
+using Platform.Infrastructure.RestfulAPI.Jira;
+using Platform.Infrastructure.RestfulAPI.Jira.Jql;
+//using Platform.Infrastructure.RestfulAPI.Jira;
+//using Platform.Infrastructure.RestfulAPI.Jira.Jql;
 
 namespace ReleaseCaptainRandomiser
 {
@@ -125,7 +129,25 @@ namespace ReleaseCaptainRandomiser
                     defaults: new { controller = "Home", action = "Index" });
             });
 
-            //var client = new JiraClient();
+            //needs to refactor below code
+            Uri uri = new Uri("https://infotrack.atlassian.net");
+
+            var password = "z3263667";
+
+            var username = "alex.sun@infotrack.com.au";
+            var jiraClient = new JiraRestClient(uri, username, password);
+
+            var jsb = new JqlSearchBean();
+            JqlBuilder builder2 = new JqlBuilder();
+            string jql = builder2.AddCondition(EField.LABELS, EOperator.EQUALS, "20170629")
+                    .OrderBy(SortOrder.ASC, EField.CREATED);
+            jsb.jql = jql;
+            jsb.AddField(EField.ASSIGNEE ,EField.LABELS, EField.STATUS, EField.DUE, EField.SUMMARY, EField.ISSUE_TYPE, EField.PRIORITY, EField.UPDATED, EField.TRANSITIONS);
+            jsb.AddExpand(EField.TRANSITIONS);
+            var task = jiraClient.SearchClient.SearchIssues(jsb);
+            var result = task.GetAwaiter().GetResult() as JqlSearchResult;
+
+
 
             try
             {
