@@ -22,7 +22,7 @@ namespace Platform.Infrastructure.RestfulAPI.Slack
             var webhookUrl = new Uri("https://hooks.slack.com/services/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");
             var slackClient = new SlackClient(webhookUrl);
 
-            var response = await slackClient.SendMessageAsync(message, "#basketball", "Test");
+            var response = await slackClient.SendMessageAsync(message, "#release-mgmt", "Test");
             var isValid = response.IsSuccessStatusCode ? "valid" : "invalid";
         }
 

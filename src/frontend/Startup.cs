@@ -40,7 +40,6 @@ namespace ReleaseCaptainRandomiser
             _hostingEnvironment = env;
         }
 
-
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -77,6 +76,10 @@ namespace ReleaseCaptainRandomiser
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDatabaseInitializer databaseInitializer, ILoggerFactory loggerFactory)
         {
+            Uri uri = new Uri("https://infotrack.atlassian.net");
+            var password = "z3263667";
+            var username = "alex.sun@infotrack.com.au";
+
             loggerFactory.AddConsole();
             loggerFactory.AddDebug(LogLevel.Warning);
             loggerFactory.AddFile(Configuration.GetSection("Logging")); //let's use Serilog :)
@@ -130,12 +133,9 @@ namespace ReleaseCaptainRandomiser
                     defaults: new { controller = "Home", action = "Index" });
             });
 
-            //needs to refactor below code
-            Uri uri = new Uri("https://infotrack.atlassian.net");
-
-            var password = "z3263667";
-
-            var username = "alex.sun@infotrack.com.au";
+            //***********************************************************************************************
+            //Needs to refactor below code. Needs to implement scheduling framework (Hangfire Redis) to fetch tickets from Jira and post message to Slack. 
+            //Data process/calculation needs to be move to service layer. This is just for demo...
             var jiraClient = new JiraRestClient(uri, username, password);
 
             var jsb = new JqlSearchBean();
@@ -149,7 +149,7 @@ namespace ReleaseCaptainRandomiser
             var result = task.GetAwaiter().GetResult() as JqlSearchResult;
 
             SlackClient.PostToSlack(result.issues[0].fields.assignee.name).Wait();
-
+            //************************************************************************************************
             try
             {
                 databaseInitializer.SeedAsync().Wait();
