@@ -18,7 +18,7 @@ using DevPlus.Repositories;
 using DevPlus.Infrastructure.RestfulAPI.Jira;
 using DevPlus.Infrastructure.RestfulAPI.Jira.Jql;
 using Hangfire;
-
+using DevPlus.Infrastructure.DependencyResolution;
 
 namespace DevPlus.Website
 {
@@ -75,6 +75,7 @@ namespace DevPlus.Website
             //// DB Creation and Seeding
             //services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
 
+            DependencyBootstrapper.EnsureDependenciesRegistered();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

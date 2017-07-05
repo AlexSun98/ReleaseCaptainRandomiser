@@ -38,8 +38,8 @@
     <PackageReference Include="System.Net.Primitives" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\DevPlus.Infrastructure.DependencyResolution\DevPlus.Infrastructure.DependencyResolution.csproj" />
     <ProjectReference Include="..\Infrastructure\DevPlus.Infrastructure\DevPlus.Infrastructure.csproj" />
-    <ProjectReference Include="..\Infrastructure\DevPlus.Repositories\DevPlus.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
