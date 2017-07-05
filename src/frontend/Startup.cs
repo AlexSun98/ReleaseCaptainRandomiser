@@ -69,11 +69,11 @@ namespace DevPlus.Website
                 cfg.AddProfile<AutoMapperProfile>();
             });
 
-            // Repositories
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //// Repositories
+            //services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            // DB Creation and Seeding
-            services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+            //// DB Creation and Seeding
+            //services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
 
         }
 

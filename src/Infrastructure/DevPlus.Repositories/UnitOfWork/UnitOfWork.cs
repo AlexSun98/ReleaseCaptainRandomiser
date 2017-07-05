@@ -23,7 +23,7 @@ namespace DevPlus.Repositories.UnitOfWork
                 if (_releaseCaptains == null)
                     _releaseCaptains = new ReleaseCaptainRepository(_context);
 
-                return _releaseCaptains;
+                return _releaseCaptains; 
             }
         }
 

@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Repositories", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Infrastructure", "src\Infrastructure\DevPlus.Infrastructure\DevPlus.Infrastructure.csproj", "{A00063D3-2FC7-4840-8A1C-F05AE11CE5D0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Domain.Services", "src\core\DevPlus.Domain.Services\DevPlus.Domain.Services\DevPlus.Domain.Services.csproj", "{ADC39049-542B-4618-9E41-13004E73FAD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{A00063D3-2FC7-4840-8A1C-F05AE11CE5D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A00063D3-2FC7-4840-8A1C-F05AE11CE5D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A00063D3-2FC7-4840-8A1C-F05AE11CE5D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADC39049-542B-4618-9E41-13004E73FAD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC39049-542B-4618-9E41-13004E73FAD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADC39049-542B-4618-9E41-13004E73FAD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC39049-542B-4618-9E41-13004E73FAD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,5 +63,6 @@ Global
 		{CA25E5F2-A53D-49E0-9433-45447CD9F0EF} = {7C3EC9B5-B902-4B3E-B0F1-9073F5240AE7}
 		{1BD2D2D3-7A7B-4BEF-B1B7-11C71BD1A5C7} = {70646DA6-AF1F-4259-8562-C0152FA3C6C2}
 		{A00063D3-2FC7-4840-8A1C-F05AE11CE5D0} = {70646DA6-AF1F-4259-8562-C0152FA3C6C2}
+		{ADC39049-542B-4618-9E41-13004E73FAD0} = {7C3EC9B5-B902-4B3E-B0F1-9073F5240AE7}
 	EndGlobalSection
 EndGlobal

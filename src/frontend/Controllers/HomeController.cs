@@ -20,7 +20,6 @@ namespace DevPlus.Website.Controllers
             return View();
         }
 
-
         // GET api/values
         [Route("api/[controller]"), HttpGet]
         public IEnumerable<string> Get()
