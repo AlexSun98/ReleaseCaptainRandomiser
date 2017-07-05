@@ -1,5 +1,5 @@
 {
-  "name": "ReleaseCaptainRandomiser",
+  "name": "DevPlus",
   "version": "0.0.1",
   "description": "Bot that will suggest release captain based on 1. Jira items ​to be released that day 2. Last captaincy date. More criteria can be added. Aim to achieve uniform release frequency along with relevance to items being released",
   "author": {
@@ -71,7 +71,7 @@
     "angularX",
     "aspnetcore",
     "aspnet-core",
-    "ReleaseCaptainRandomiser",
+    "DevPlus",
     "ng4"
   ]
 }

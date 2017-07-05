@@ -1,8 +1,8 @@
 ﻿
 using AutoMapper;
-using Platform.Models;
+using DevPlus.Models;
 
-namespace ReleaseCaptainRandomiser.ViewModels
+namespace DevPlus.Website.ViewModels
 {
     public class AutoMapperProfile : Profile
     {

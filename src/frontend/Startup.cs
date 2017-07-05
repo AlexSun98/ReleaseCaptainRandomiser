@@ -6,23 +6,21 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using ReleaseCaptainRandomiser.ViewModels;
-using Platform.UnitOfWork;
+using DevPlus.Website.ViewModels;
+using DevPlus.Repositories.UnitOfWork;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.SpaServices.Webpack;
-using Platform.Infrastructure;
+using DevPlus.Infrastructure;
 using System;
-using Platform.Infrastructure.Helpers;
-using Platform.Repositories;
-using Platform.Infrastructure.RestfulAPI.Jira;
-using Platform.Infrastructure.RestfulAPI.Jira.Jql;
-using Platform.Infrastructure.RestfulAPI.Slack;
-//using Platform.Infrastructure.RestfulAPI.Jira;
-//using Platform.Infrastructure.RestfulAPI.Jira.Jql;
+using DevPlus.Infrastructure.Helpers;
+using DevPlus.Repositories;
+using DevPlus.Infrastructure.RestfulAPI.Jira;
+using DevPlus.Infrastructure.RestfulAPI.Jira.Jql;
+using Hangfire;
 
-namespace ReleaseCaptainRandomiser
+
+namespace DevPlus.Website
 {
     public class Startup
     {
@@ -44,13 +42,18 @@ namespace ReleaseCaptainRandomiser
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PlatformDbContext>(options =>
+            services.AddDbContext<DevPlusDbContext>(options =>
             {
-                var connectionString = Configuration["Data:DefaultConnection:ConnectionString"];
-                var test = @"Server=.\sql2012dev_ent;Database=Platform;Trusted_Connection=True;";
-                options.UseSqlServer(test);
+                //var dbConnection = Configuration["Data:DefaultConnection:ConnectionString"];
+                var dbConnection = @"Server=10.200.21.125\sql2012dev_ent;Database=DevPlus;user id=sa;password=Hotbean9378@123;";
+                options.UseSqlServer(dbConnection);
                 //options.UseOpenIddict();
             });
+
+            //var hangfireConnection = Configuration["Data:DefaultConnection:HangfireConnection"];
+            var hangfireConnection = @"Server=10.200.21.125\sql2012dev_ent;Database=Hangfire;user id=sa;password=Hotbean9378@123;";
+            services.AddHangfire(config =>
+                config.UseSqlServerStorage(hangfireConnection));
 
             // add identity
             //services.AddIdentity()
@@ -71,6 +74,7 @@ namespace ReleaseCaptainRandomiser
 
             // DB Creation and Seeding
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +87,9 @@ namespace ReleaseCaptainRandomiser
             loggerFactory.AddConsole();
             loggerFactory.AddDebug(LogLevel.Warning);
             loggerFactory.AddFile(Configuration.GetSection("Logging")); //let's use Serilog :)
+
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
 
             Utilities.ConfigureLogger(loggerFactory);
 
@@ -146,9 +153,9 @@ namespace ReleaseCaptainRandomiser
             jsb.AddField(EField.ASSIGNEE ,EField.LABELS, EField.STATUS, EField.DUE, EField.SUMMARY, EField.ISSUE_TYPE, EField.PRIORITY, EField.UPDATED, EField.TRANSITIONS);
             jsb.AddExpand(EField.TRANSITIONS);
             var task = jiraClient.SearchClient.SearchIssues(jsb);
-            var result = task.GetAwaiter().GetResult() as JqlSearchResult;
+            //var result = task.GetAwaiter().GetResult() as JqlSearchResult;
 
-            SlackClient.PostToSlack(result.issues[0].fields.assignee.name).Wait();
+            //SlackClient.PostToSlack(result.issues[0].fields.assignee.name).Wait();
             //************************************************************************************************
             try
             {

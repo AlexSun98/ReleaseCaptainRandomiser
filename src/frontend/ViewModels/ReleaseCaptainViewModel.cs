@@ -1,4 +1,4 @@
-﻿namespace ReleaseCaptainRandomiser.ViewModels
+﻿namespace DevPlus.Website.ViewModels
 {
     public class ReleaseCaptainViewModel
     {
