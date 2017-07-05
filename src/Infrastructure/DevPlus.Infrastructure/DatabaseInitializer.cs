@@ -30,7 +30,7 @@ namespace DevPlus.Infrastructure
 
             if (!await _context.ReleaseCaptains.AnyAsync())
             {
-                ReleaseCaptain rc_1 = new ReleaseCaptain
+                ReleaseCaptain releaseCaptain = new ReleaseCaptain
                 {
                     Name = "Test User",
                     LastCaptaincyDate = DateTime.UtcNow,
@@ -38,7 +38,7 @@ namespace DevPlus.Infrastructure
                     DateModified = DateTime.UtcNow
                 };
 
-                _context.ReleaseCaptains.Add(rc_1);
+                _context.ReleaseCaptains.Add(releaseCaptain);
 
                 await _context.SaveChangesAsync();
             }

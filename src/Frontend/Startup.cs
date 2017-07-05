@@ -44,7 +44,7 @@ namespace DevPlus.Website
         {
             services.AddDbContext<DevPlusDbContext>(options =>
             {
-                //var dbConnection = Configuration["Data:DefaultConnection:ConnectionString"];
+                //var dbConnection = Configuration["Data:DefaultConnection:SqlConnection"];
                 var dbConnection = @"Server=10.200.21.125\sql2012dev_ent;Database=DevPlus;user id=sa;password=Hotbean9378@123;";
                 options.UseSqlServer(dbConnection);
                 //options.UseOpenIddict();
