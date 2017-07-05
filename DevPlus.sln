@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{21DE9B29-53FD-4847-A893-DD100726630C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Website", "src\frontend\DevPlus.Website.csproj", "{A0ACD150-E243-4C26-95A7-0BE1AB327D82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Website", "src\Frontend\DevPlus.Website.csproj", "{A0ACD150-E243-4C26-95A7-0BE1AB327D82}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Frontend", "1. Frontend", "{83BD4DBC-EE97-4D1F-AB08-46132B0BFA6E}"
 EndProject
@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Repositories", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Infrastructure", "src\Infrastructure\DevPlus.Infrastructure\DevPlus.Infrastructure.csproj", "{A00063D3-2FC7-4840-8A1C-F05AE11CE5D0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Domain.Services", "src\core\DevPlus.Domain.Services\DevPlus.Domain.Services\DevPlus.Domain.Services.csproj", "{ADC39049-542B-4618-9E41-13004E73FAD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Domain.Services", "src\Core\DevPlus.Domain.Services\DevPlus.Domain.Services\DevPlus.Domain.Services.csproj", "{ADC39049-542B-4618-9E41-13004E73FAD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
