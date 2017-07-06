@@ -19,6 +19,7 @@ using DevPlus.Infrastructure.RestfulAPI.Jira;
 using DevPlus.Infrastructure.RestfulAPI.Jira.Jql;
 using Hangfire;
 using DevPlus.Infrastructure.DependencyResolution;
+using DevPlus.Infrastructure.Hangfire;
 
 namespace DevPlus.Website
 {
@@ -79,7 +80,7 @@ namespace DevPlus.Website
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDatabaseInitializer databaseInitializer, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDatabaseInitializer databaseInitializer, ILoggerFactory loggerFactory, IHangfireJobManager hangfireJobManager)
         {
             Uri uri = new Uri("https://infotrack.atlassian.net");
             var password = "z3263667";
@@ -165,6 +166,15 @@ namespace DevPlus.Website
             catch (Exception ex)
             {
                 Utilities.CreateLogger<Startup>().LogCritical(LoggingEvents.INIT_DATABASE, ex, LoggingEvents.INIT_DATABASE.Name);
+                throw;
+            }
+            try
+            {
+                //hangfireJobManager.EnqueueRecurringJobAsync().Wait();
+            }
+            catch (Exception ex)
+            {
+                Utilities.CreateLogger<Startup>().LogCritical(LoggingEvents.INIT_HANGFIRE_JOB, ex, LoggingEvents.INIT_HANGFIRE_JOB.Name);
                 throw;
             }
         }

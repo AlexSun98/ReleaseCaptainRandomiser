@@ -6,10 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0" />
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\DevPlus.Domain\DevPlus.Domain.csproj" />
+    <ProjectReference Include="..\DevPlus.Infrastructure.Hangfire\DevPlus.Infrastructure.Hangfire.csproj" />
     <ProjectReference Include="..\DevPlus.Infrastructure\DevPlus.Infrastructure.csproj" />
     <ProjectReference Include="..\DevPlus.Repositories\DevPlus.Repositories.csproj" />
   </ItemGroup>

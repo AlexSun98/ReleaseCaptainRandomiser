@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 
-namespace DevPlus.Models
+
+namespace DevPlus.Repositories.Entities
 {
     public class ApplicationUser : IdentityUser
     {

@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace DevPlus.Models
+
+namespace DevPlus.Repositories.Entities
 {
     public class ApplicationRole : IdentityRole
     {

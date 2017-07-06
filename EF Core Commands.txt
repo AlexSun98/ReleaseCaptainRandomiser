@@ -1,0 +1,15 @@
+=============================================================================================================
+EF Core Tool Bug - it doesn't work well with .net core 1.1 atm. so edit DevPlus.Repositories.csproj.
+
+Find tag <TargetFramework>netcoreapp1.1</TargetFramework>.  Change “netcoreapp1.1” to say “netcoreapp1.0”.
+
+Run “dotnet restore” then run “dotnet build”.  Now, re-run the add migration command.
+
+=============================================================================================================
+0. navigate to (E.G) D:\Github\DevPlus\src\Infrastructure\DevPlus.Repositories>
+
+1. dotnet ef migrations add initial
+
+2. dotnet ef database update
+
+ 

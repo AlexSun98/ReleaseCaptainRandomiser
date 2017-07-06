@@ -1,8 +1,10 @@
 ﻿using Autofac;
+using AutoMapper;
 using DevPlus.Domain;
 using DevPlus.Infrastructure.DependencyResolution.AutofacConfiguration;
+using DevPlus.Infrastructure.DependencyResolution.Mapping.Profiles;
 using Maple.Infrastructure.DependencyResolution.AutofacServiceLocator;
-
+using Maple.Infrastructure.DependencyResolution.Mapping;
 
 namespace DevPlus.Infrastructure.DependencyResolution
 {
@@ -14,6 +16,7 @@ namespace DevPlus.Infrastructure.DependencyResolution
         internal void RegisterAllDependenciesOnStartup()
         {      
             ConfigureAutofac();
+            ConfigureAutoMapper();
         }
 
         /// <summary>
@@ -26,6 +29,17 @@ namespace DevPlus.Infrastructure.DependencyResolution
             var container = builder.Build();
 
             CoreServiceLocator.SetServiceLocator(() => new AutofacServiceLocator(container));
+        }
+
+        internal void ConfigureAutoMapper()
+        {
+            MapperConfiguration config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new WebMappingProfile());  //mapping between Web and Business layer objects
+                cfg.AddProfile(new BlMappingProfile());  // mapping between Business and DB layer objects
+            });
+
+            CoreAutoMapper.SetMapper(() => new AutoMapperWrapper());
         }
 
         public static void EnsureDependenciesRegistered()

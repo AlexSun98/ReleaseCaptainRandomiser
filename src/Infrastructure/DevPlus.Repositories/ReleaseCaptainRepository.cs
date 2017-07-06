@@ -1,4 +1,4 @@
-﻿using DevPlus.Models;
+﻿using DevPlus.Repositories.Entities;
 using DevPlus.Repositories.Interfaces;
 using DevPlus.Repositories.UnitOfWork;
 using System;

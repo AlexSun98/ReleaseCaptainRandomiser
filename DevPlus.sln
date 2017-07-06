@@ -25,7 +25,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Repositories", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Infrastructure.DependencyResolution", "src\Infrastructure\DevPlus.Infrastructure.DependencyResolution\DevPlus.Infrastructure.DependencyResolution.csproj", "{1A115B8A-A408-47FE-9C76-6B70DACC1A26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevPlus.Infrastructure.Hangfire", "src\Infrastructure\DevPlus.Infrastructure.Hangfire\DevPlus.Infrastructure.Hangfire.csproj", "{F1DCBDE9-C689-40CE-876B-4718545B127F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Infrastructure.Hangfire", "src\Infrastructure\DevPlus.Infrastructure.Hangfire\DevPlus.Infrastructure.Hangfire.csproj", "{F1DCBDE9-C689-40CE-876B-4718545B127F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86BBA9D6-7814-4C52-ADD7-6E3B31396D8A}"
+	ProjectSection(SolutionItems) = preProject
+		Docker Commands.txt = Docker Commands.txt
+		EF Core Commands.txt = EF Core Commands.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

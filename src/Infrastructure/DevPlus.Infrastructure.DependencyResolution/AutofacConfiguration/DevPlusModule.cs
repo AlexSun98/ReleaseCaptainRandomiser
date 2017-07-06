@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DevPlus.Infrastructure.Hangfire;
 using DevPlus.Repositories.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace DevPlus.Infrastructure.DependencyResolution.AutofacConfiguration
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
             builder.RegisterType<DatabaseInitializer>().As<IDatabaseInitializer>().InstancePerDependency();
+
+            builder.RegisterType<HangfireJobManager>().As<IHangfireJobManager>().SingleInstance();
         }
     }
 }

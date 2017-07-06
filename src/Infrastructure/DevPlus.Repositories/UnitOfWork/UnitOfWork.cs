@@ -1,6 +1,7 @@
 ﻿using DevPlus.Repositories;
 using DevPlus.Repositories.Interfaces;
 using System;
+using DevPlus.Repositories.Entities;
 
 namespace DevPlus.Repositories.UnitOfWork
 {

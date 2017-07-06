@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using DevPlus.Models;
+using DevPlus.Repositories.Entities;
 using DevPlus.Repositories;
 using System;
 using System.Threading.Tasks;

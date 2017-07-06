@@ -1,6 +1,6 @@
 ﻿
 using AutoMapper;
-using DevPlus.Models;
+using DevPlus.Repositories.Entities;
 
 namespace DevPlus.Website.ViewModels
 {
