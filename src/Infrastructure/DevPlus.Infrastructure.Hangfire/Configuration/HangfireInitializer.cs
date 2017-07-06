@@ -30,6 +30,8 @@ namespace DevPlus.Infrastructure.Hangfire
         //    return _instance;
         //}
 
+
+        //.net core hsa its own middleware bridge. might give it a try later on
         //public static void Initalise(IAppBuilder app, string deliverySystemName, DashboardOptions dashboardOptions = null, BackgroundJobServerOptions backgroundJobServerOptions = null)
         //{
         //    if (!Initalised)

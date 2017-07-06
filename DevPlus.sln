@@ -19,11 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Domain", "src\Core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Domain.Services", "src\Core\DevPlus.Domain.Services\DevPlus.Domain.Services.csproj", "{0862D3F4-0FFD-4F56-A6D7-B54D15211D5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevPlus.Infrastructure", "src\Infrastructure\DevPlus.Infrastructure\DevPlus.Infrastructure.csproj", "{7C209E79-1DEF-4241-8F9C-F684E5AAA0CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Infrastructure", "src\Infrastructure\DevPlus.Infrastructure\DevPlus.Infrastructure.csproj", "{7C209E79-1DEF-4241-8F9C-F684E5AAA0CD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Repositories", "src\Infrastructure\DevPlus.Repositories\DevPlus.Repositories.csproj", "{72D7D3EA-3913-4D0E-9B6B-C199FC301091}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevPlus.Infrastructure.DependencyResolution", "src\Infrastructure\DevPlus.Infrastructure.DependencyResolution\DevPlus.Infrastructure.DependencyResolution.csproj", "{1A115B8A-A408-47FE-9C76-6B70DACC1A26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Infrastructure.DependencyResolution", "src\Infrastructure\DevPlus.Infrastructure.DependencyResolution\DevPlus.Infrastructure.DependencyResolution.csproj", "{1A115B8A-A408-47FE-9C76-6B70DACC1A26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevPlus.Infrastructure.Hangfire", "src\Infrastructure\DevPlus.Infrastructure.Hangfire\DevPlus.Infrastructure.Hangfire.csproj", "{F1DCBDE9-C689-40CE-876B-4718545B127F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{1A115B8A-A408-47FE-9C76-6B70DACC1A26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A115B8A-A408-47FE-9C76-6B70DACC1A26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A115B8A-A408-47FE-9C76-6B70DACC1A26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1DCBDE9-C689-40CE-876B-4718545B127F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1DCBDE9-C689-40CE-876B-4718545B127F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1DCBDE9-C689-40CE-876B-4718545B127F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1DCBDE9-C689-40CE-876B-4718545B127F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,5 +77,6 @@ Global
 		{7C209E79-1DEF-4241-8F9C-F684E5AAA0CD} = {70646DA6-AF1F-4259-8562-C0152FA3C6C2}
 		{72D7D3EA-3913-4D0E-9B6B-C199FC301091} = {70646DA6-AF1F-4259-8562-C0152FA3C6C2}
 		{1A115B8A-A408-47FE-9C76-6B70DACC1A26} = {70646DA6-AF1F-4259-8562-C0152FA3C6C2}
+		{F1DCBDE9-C689-40CE-876B-4718545B127F} = {70646DA6-AF1F-4259-8562-C0152FA3C6C2}
 	EndGlobalSection
 EndGlobal
