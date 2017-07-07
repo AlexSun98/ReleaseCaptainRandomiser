@@ -7,10 +7,11 @@ using System.Linq.Expressions;
 
 namespace DevPlus.Repositories
 {
-    public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class BaseRepository<TEntity> : IDisposable, IRepository<TEntity> where TEntity : class
     {
-        protected readonly DbContext _context;
+        protected DbContext _context;
         protected readonly DbSet<TEntity> _entities;
+        private bool disposed = false;
 
         public BaseRepository(DbContext context)
         {
@@ -76,6 +77,28 @@ namespace DevPlus.Repositories
         public virtual IEnumerable<TEntity> GetAll()
         {
             return _entities.ToList();
+        }
+
+        public virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    if (this._context != null)
+                    {
+                        this._context.Dispose();
+                        this._context = null;
+                    }
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -6,9 +6,8 @@ using System.Text;
 
 namespace DevPlus.Repositories.Interfaces
 {
-    public interface IReleaseCaptainRepository : IRepository<ReleaseCaptain>, IDisposable
+    public interface IReleaseNoteRepository : IRepository<ReleaseNote>, IDisposable
     {
-        IEnumerable<ReleaseCaptain> GetTopActiveCaptain();
-        ReleaseCaptain GetLatestCaptain();
+        IEnumerable<ReleaseNote> GetTodayReleaseNote();
     }
 }

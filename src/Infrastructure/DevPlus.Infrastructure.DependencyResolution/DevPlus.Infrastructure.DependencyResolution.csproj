@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\DevPlus.Domain.Services\DevPlus.Domain.Services.csproj" />
     <ProjectReference Include="..\..\Core\DevPlus.Domain\DevPlus.Domain.csproj" />
     <ProjectReference Include="..\DevPlus.Infrastructure.Hangfire\DevPlus.Infrastructure.Hangfire.csproj" />
     <ProjectReference Include="..\DevPlus.Infrastructure\DevPlus.Infrastructure.csproj" />

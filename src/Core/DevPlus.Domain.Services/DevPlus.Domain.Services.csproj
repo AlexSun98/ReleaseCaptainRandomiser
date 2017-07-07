@@ -4,4 +4,10 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\DevPlus.Infrastructure\DevPlus.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\DevPlus.Repositories\DevPlus.Repositories.csproj" />
+    <ProjectReference Include="..\DevPlus.Domain\DevPlus.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

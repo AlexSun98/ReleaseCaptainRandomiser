@@ -8,11 +8,13 @@ namespace DevPlus.Infrastructure.RestfulAPI.Jira
 {
     public class JiraRestClient
     {
-        private string _username;
+        private string _username = "alex.sun@infotrack.com.au";
 
         private readonly HttpClient _client;
 
-        private readonly Uri _baseUri;
+        private readonly Uri _baseUri = new Uri("https://infotrack.atlassian.net");
+
+        private readonly string _password = "z3263667";
 
         private IssueClient _issueClient;
 
@@ -24,12 +26,20 @@ namespace DevPlus.Infrastructure.RestfulAPI.Jira
 
         private ProjectClient _projectClient;
 
-        public JiraRestClient(Uri uri, string username, string password)
+        //public JiraRestClient(Uri uri, string username, string password)
+        //{
+        //    this._client = new HttpClient();
+        //    this._baseUri = uri;
+        //    this._username = username;
+        //    var bytes = Encoding.ASCII.GetBytes(username + ":" + password);
+        //    var token = Convert.ToBase64String(bytes);
+        //    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
+        //}
+
+        public JiraRestClient()
         {
             this._client = new HttpClient();
-            this._baseUri = uri;
-            this._username = username;
-            var bytes = Encoding.ASCII.GetBytes(username + ":" + password);
+            var bytes = Encoding.ASCII.GetBytes(_username + ":" + _password);
             var token = Convert.ToBase64String(bytes);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
         }

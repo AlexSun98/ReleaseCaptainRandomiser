@@ -20,6 +20,11 @@ using DevPlus.Infrastructure.RestfulAPI.Jira.Jql;
 using Hangfire;
 using DevPlus.Infrastructure.DependencyResolution;
 using DevPlus.Infrastructure.Hangfire;
+using Microsoft.AspNetCore.SpaServices.Webpack;
+using DevPlus.Domain.Interfaces.DomainServices;
+using DevPlus.Domain.Models;
+using System.Collections.Generic;
+using DevPlus.Domain.Services.ReleaseCaptains;
 
 namespace DevPlus.Website
 {
@@ -52,13 +57,15 @@ namespace DevPlus.Website
             });
 
             //var hangfireConnection = Configuration["Data:DefaultConnection:HangfireConnection"];
-            var hangfireConnection = @"Server=10.200.21.125\sql2012dev_ent;Database=Hangfire;user id=sa;password=Hotbean9378@123;";
-            services.AddHangfire(config =>
-                config.UseSqlServerStorage(hangfireConnection));
+            //var hangfireConnection = @"Server=10.200.21.125\sql2012dev_ent;Database=Hangfire;user id=sa;password=Hotbean9378@123;";
+            //services.AddHangfire(config =>
+            //    config.UseSqlServerStorage(hangfireConnection));
+
+            services.AddHangfire(config => config.UseRedisStorage("testsearch.infotrack.com.au:16379"));
 
             // add identity
             //services.AddIdentity()
-            //    .AddEntityFrameworkStores<PlatformDbContext>()
+            //    .AddEntityFrameworkStores<DevPlusDbContext>()
             //    .AddDefaultTokenProviders();
 
             // Add framework services.
@@ -70,22 +77,21 @@ namespace DevPlus.Website
                 cfg.AddProfile<AutoMapperProfile>();
             });
 
-            //// Repositories
-            //services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //Repositories
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IReleaseService, ReleaseService>();
 
-            //// DB Creation and Seeding
-            //services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+            //DB Creation and Seeding
+            services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+
+            // IOC management
 
             DependencyBootstrapper.EnsureDependenciesRegistered();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDatabaseInitializer databaseInitializer, ILoggerFactory loggerFactory, IHangfireJobManager hangfireJobManager)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDatabaseInitializer databaseInitializer, ILoggerFactory loggerFactory, IReleaseService releaseService)
         {
-            Uri uri = new Uri("https://infotrack.atlassian.net");
-            var password = "z3263667";
-            var username = "alex.sun@infotrack.com.au";
-
             loggerFactory.AddConsole();
             loggerFactory.AddDebug(LogLevel.Warning);
             loggerFactory.AddFile(Configuration.GetSection("Logging")); //let's use Serilog :)
@@ -98,7 +104,7 @@ namespace DevPlus.Website
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-         
+
                 //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 //{
                 //    HotModuleReplacement = true
@@ -145,16 +151,16 @@ namespace DevPlus.Website
             //***********************************************************************************************
             //Needs to refactor below code. Needs to implement scheduling framework (Hangfire Redis) to fetch tickets from Jira and post message to Slack. 
             //Data process/calculation needs to be move to service layer. This is just for demo...
-            var jiraClient = new JiraRestClient(uri, username, password);
+            //var jiraClient = new JiraRestClient(uri, username, password);
 
-            var jsb = new JqlSearchBean();
-            JqlBuilder builder2 = new JqlBuilder();
-            string jql = builder2.AddCondition(EField.LABELS, EOperator.EQUALS, "20170629")
-                    .OrderBy(SortOrder.ASC, EField.CREATED);
-            jsb.jql = jql;
-            jsb.AddField(EField.ASSIGNEE ,EField.LABELS, EField.STATUS, EField.DUE, EField.SUMMARY, EField.ISSUE_TYPE, EField.PRIORITY, EField.UPDATED, EField.TRANSITIONS);
-            jsb.AddExpand(EField.TRANSITIONS);
-            var task = jiraClient.SearchClient.SearchIssues(jsb);
+            //var jsb = new JqlSearchBean();
+            //JqlBuilder builder2 = new JqlBuilder();
+            //string jql = builder2.AddCondition(EField.LABELS, EOperator.EQUALS, "20170629")
+            //        .OrderBy(SortOrder.ASC, EField.CREATED);
+            //jsb.jql = jql;
+            //jsb.AddField(EField.ASSIGNEE ,EField.LABELS, EField.STATUS, EField.DUE, EField.SUMMARY, EField.ISSUE_TYPE, EField.PRIORITY, EField.UPDATED, EField.TRANSITIONS);
+            //jsb.AddExpand(EField.TRANSITIONS);
+            //var task = jiraClient.SearchClient.SearchIssues(jsb);
             //var result = task.GetAwaiter().GetResult() as JqlSearchResult;
 
             //SlackClient.PostToSlack(result.issues[0].fields.assignee.name).Wait();
@@ -170,7 +176,14 @@ namespace DevPlus.Website
             }
             try
             {
-                //hangfireJobManager.EnqueueRecurringJobAsync().Wait();
+                string daily_TenThirty = "30 10 * * 1-4";
+                RecurringJob.AddOrUpdate("ReleaseService.GetTodayReleaseNote", () => releaseService.GetTodayReleaseNote(), daily_TenThirty);
+
+                var jobName = "ReleaseService.GetTodayReleaseNote";
+                var con = JobStorage.Current.GetConnection();
+                var recJob = con.GetAllEntriesFromHash($"recurring-job:{jobName}");
+                //var jobId = BackgroundJob.Enqueue(() => releaseService.GetTodayReleaseNote());
+             
             }
             catch (Exception ex)
             {
