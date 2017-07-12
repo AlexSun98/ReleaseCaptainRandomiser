@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DevPlus.Repositories.Interfaces
 {
-    public interface IReleaseNoteRepository : IRepository<ReleaseNote>, IDisposable
+    public interface IReleaseNoteRepository : IDisposable
     {
         IEnumerable<ReleaseNote> GetTodayReleaseNote();
     }

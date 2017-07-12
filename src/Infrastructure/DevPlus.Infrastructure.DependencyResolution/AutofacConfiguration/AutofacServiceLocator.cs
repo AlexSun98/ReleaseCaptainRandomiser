@@ -33,5 +33,10 @@ namespace Maple.Infrastructure.DependencyResolution.AutofacServiceLocator
         {
             return _container.Resolve(serviceType);
         }
+
+        public IContainer GetIocContainer()
+        {
+            return _container;
+        }
     }
 }

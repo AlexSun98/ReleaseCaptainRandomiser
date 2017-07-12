@@ -8,4 +8,8 @@
     <PackageReference Include="Autofac" Version="4.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Infrastructure\DevPlus.Infrastructure.DependencyResolution\DevPlus.Infrastructure.DependencyResolution.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,5 +10,6 @@ namespace DevPlus.Domain.Interfaces
         T GetInstance<T>();
         T GetInstance<T>(string name);
         object GetInstance(Type type);
+        IContainer GetIocContainer();
     }
 }

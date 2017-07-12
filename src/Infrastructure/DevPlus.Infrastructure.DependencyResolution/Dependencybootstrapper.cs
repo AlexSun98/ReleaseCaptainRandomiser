@@ -27,7 +27,7 @@ namespace DevPlus.Infrastructure.DependencyResolution
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DevPlusModule());
             var container = builder.Build();
-
+     
             CoreServiceLocator.SetServiceLocator(() => new AutofacServiceLocator(container));
         }
 
