@@ -5,6 +5,10 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
+using DevPlus.Domain.Interfaces.DomainServices;
+using Moq;
+using DevPlus.Domain.Models;
+using Autofac.Core.Lifetime;
 
 namespace DevPlus.UnitTests.Common
 {
@@ -25,7 +29,7 @@ namespace DevPlus.UnitTests.Common
             CoreServiceLocator.SetServiceLocator(() => new AutofacServiceLocator(container));
         }
 
-        private static void SetupDefaults()
+        public DependencyBuilder SetupDefaults()
         {
             var assembly = typeof(DependencyBuilder).GetTypeInfo().Assembly;
 
@@ -38,16 +42,24 @@ namespace DevPlus.UnitTests.Common
             var container = containerBuilder.Build();
 
             CoreServiceLocator.SetServiceLocator(() => new AutofacServiceLocator(container));
+            return this;
         }
 
-        public DependencyBuilder With<TInt>(TInt implementation)
+
+        public DependencyBuilder With<TInt, T>(TInt implementation)
         {
+            //clone current registrations and filter out exsiting ones.
             var currentContainer = CoreServiceLocator.Current.GetIocContainer();
 
             var builder = new ContainerBuilder();
-            var components = currentContainer.ComponentRegistry.Registrations
-                                .Where(cr => cr.Activator.LimitType != typeof(TInt));
 
+            var components = currentContainer.ComponentRegistry.Registrations
+                                .Where(cr => cr.Activator.LimitType != typeof(LifetimeScope))
+                                .Where(cr => cr.Activator.LimitType != typeof(T))
+                                .Where(cr => cr.Activator.LimitType.Name.Replace("Default", "").Replace("Fake", "") != typeof(T).Name);
+
+            var test = components.FirstOrDefault().Services.FirstOrDefault().Description;
+            var test1 = typeof(T).Name;
             var sources = currentContainer.ComponentRegistry.Sources
                               .Where(cr => cr.GetType() != typeof(TInt));
 
@@ -61,8 +73,14 @@ namespace DevPlus.UnitTests.Common
                 builder.RegisterSource(source);
             }
 
-            builder.RegisterType<TInt>().As<TInt>().InstancePerDependency();
+            //How to use it
+            //var sutMock = new Mock<IReleaseService>();
+            //sutMock.Setup(x => x.GetTodayReleaseNote()).Returns(new List<ReleaseNoteModel>());
+            //builder.RegisterInstance(sutMock.Object).As<IReleaseService>();
+            //builder.RegisterGeneric(typeof(TInt)).As<TInt>();
+            builder.RegisterType<T>().As<TInt>().InstancePerDependency();
 
+            //reset service locator
             var newContainer = builder.Build();
             CoreServiceLocator.SetServiceLocator(() => new AutofacServiceLocator(newContainer));
             return this;

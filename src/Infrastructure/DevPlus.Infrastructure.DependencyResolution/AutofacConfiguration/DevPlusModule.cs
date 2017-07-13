@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using DevPlus.Domain.Interfaces.DomainServices;
-using DevPlus.Domain.Services.ReleaseCaptains;
+using DevPlus.Domain.Services.ReleaseManagement;
 using DevPlus.Infrastructure.Hangfire;
 using DevPlus.Repositories;
 using DevPlus.Repositories.Interfaces;

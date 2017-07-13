@@ -24,7 +24,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using DevPlus.Domain.Interfaces.DomainServices;
 using DevPlus.Domain.Models;
 using System.Collections.Generic;
-using DevPlus.Domain.Services.ReleaseCaptains;
+using DevPlus.Domain.Services.ReleaseManagement;
 
 namespace DevPlus.Website
 {

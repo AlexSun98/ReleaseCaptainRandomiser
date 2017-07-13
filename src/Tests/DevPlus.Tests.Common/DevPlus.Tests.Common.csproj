@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.6.0" />
-    <PackageReference Include="Moq" Version="4.7.63" />
+    <ProjectReference Include="..\..\Core\DevPlus.Domain\DevPlus.Domain.csproj" />
   </ItemGroup>
 
 </Project>

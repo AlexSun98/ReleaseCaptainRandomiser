@@ -7,6 +7,10 @@ namespace DevPlus.Domain.Interfaces.DomainServices
 {
     public interface IReleaseService
     {
+        List<ReleaseNoteModel> GetTodayReleaseNoteFromDb();
+
+        List<ReleaseNoteModel> GetTodayReleaseNoteFromJira();
+
         List<ReleaseNoteModel> GetTodayReleaseNote();
     }
 }

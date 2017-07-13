@@ -39,5 +39,12 @@ namespace DevPlus.Infrastructure.Helpers
                 writer.WriteLine($"{DateTime.Now} - {text}");
             }
         }
+
+        public static string GetFormatedDateForToday()
+        {
+            DateTime today = DateTime.Today;
+            string theDate = today.ToString("yyyyMMdd");
+            return theDate;
+        }
     }
 }
