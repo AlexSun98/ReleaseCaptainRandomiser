@@ -46,7 +46,7 @@ namespace DevPlus.UnitTests.Common
         }
 
 
-        public DependencyBuilder With<TInt, T>(TInt implementation)
+        public DependencyBuilder Bind<T, TInt>(TInt implementation)
         {
             //clone current registrations and filter out exsiting ones.
             var currentContainer = CoreServiceLocator.Current.GetIocContainer();
@@ -58,8 +58,8 @@ namespace DevPlus.UnitTests.Common
                                 .Where(cr => cr.Activator.LimitType != typeof(T))
                                 .Where(cr => cr.Activator.LimitType.Name.Replace("Default", "").Replace("Fake", "") != typeof(T).Name);
 
-            var test = components.FirstOrDefault().Services.FirstOrDefault().Description;
-            var test1 = typeof(T).Name;
+            //var test = components.FirstOrDefault().Services.FirstOrDefault().Description;
+            //var test1 = typeof(T).Name;
             var sources = currentContainer.ComponentRegistry.Sources
                               .Where(cr => cr.GetType() != typeof(TInt));
 
@@ -77,8 +77,10 @@ namespace DevPlus.UnitTests.Common
             //var sutMock = new Mock<IReleaseService>();
             //sutMock.Setup(x => x.GetTodayReleaseNote()).Returns(new List<ReleaseNoteModel>());
             //builder.RegisterInstance(sutMock.Object).As<IReleaseService>();
-            //builder.RegisterGeneric(typeof(TInt)).As<TInt>();
-            builder.RegisterType<T>().As<TInt>().InstancePerDependency();
+            //builder.RegisterGeneric(implementation.GetType()).As<TInt>();
+            //builder.RegisterType<T>().As<TInt>().InstancePerDependency();
+            builder.Register(_ => implementation).As<TInt>();
+            //builder.RegisterInstance(implementation).As<TInt>();
 
             //reset service locator
             var newContainer = builder.Build();

@@ -39,16 +39,16 @@ namespace DevPlus.Domain.Services.UnitTests
             var releaseNoteModelList = new List<ReleaseNoteModel>();
             releaseNoteModelList.Add(releaseNoteModel);
 
-            //var releaseServiceMock = new Mock<IReleaseService>();
+            var releaseServiceMock = new Mock<IReleaseService>();
             //releaseServiceMock.Setup(x => x.GetTodayReleaseNoteFromDb()).Returns(releaseNoteModelList);
             //releaseServiceMock.Setup(x => x.GetTodayReleaseNoteFromJira()).Returns(releaseNoteModelList);
 
             var testServiceMock = new Mock<ITestService>();
-            testServiceMock.Setup(x => x.Echo("Hello")).Returns("GoodBye");
+            testServiceMock.Setup(x => x.Echo("Hello")).Returns("GoodBye123");
 
             DependencyBuilder.Factory()
                 .SetupDefaults()
-                .With<ITestService, Mock<ITestService>>(testServiceMock.Object);
+                .Bind<Mock<ITestService>,ITestService>(testServiceMock.Object);
 
             //2. Act
             //var sut = releaseServiceMock.Object;
