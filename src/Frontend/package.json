@@ -61,7 +61,7 @@
     "zone.js": "^0.8.11"
   },
   "scripts": {
-    "dev-build": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js"
+    "dev": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js"
   },
   "keywords": [
     "ng",

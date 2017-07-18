@@ -20,7 +20,9 @@
 	a. run 'dotnet restore' from the two project folders - Restore nuget packages
 	b. run 'npm install' from the project with package.json - Restore npm packages
 	c, run 'npm run dev-build' from the project with package.json - Build webpack vendor packages
-	d. Try running the application again - Test to make sure it all works
+	d. webpack
+
+	try to remove dist folder if bundle files are not updated properly 
 
 	webpack --config .\webpack.config.vendor.js
 	webpack
