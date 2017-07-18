@@ -1,0 +1,26 @@
+1.Docker Commands
+	dotnet restore .\devplus.sln
+	dotnet build ..\..\devplus.sln
+	dotnet publish ..\..\DevPlus.sln -c Release -o ./obj/Docker/publish
+	docker build -t devplus .
+	docker run -p 4000:80 devplus
+
+
+2.EF Core Commands
+	=============================================================================================================
+	EF Core Tool Bug - it doesn't work well with .net core 1.1 atm. so edit DevPlus.Repositories.csproj.
+	Find tag <TargetFramework>netcoreapp1.1</TargetFramework>.  Change “netcoreapp1.1” to say “netcoreapp1.0”.
+	Run “dotnet restore” then run “dotnet build”.  Now, re-run the add migration command.
+	=============================================================================================================
+	a. navigate to (E.G) D:\Github\DevPlus\src\Infrastructure\DevPlus.Repositories>
+	b. dotnet ef migrations add initial
+	c. dotnet ef database update
+
+3.Installation Commands - Open command prompt as admin and do the bel
+	a. run 'dotnet restore' from the two project folders - Restore nuget packages
+	b. run 'npm install' from the project with package.json - Restore npm packages
+	c, run 'npm run dev-build' from the project with package.json - Build webpack vendor packages
+	d. Try running the application again - Test to make sure it all works
+
+	webpack --config .\webpack.config.vendor.js
+	webpack

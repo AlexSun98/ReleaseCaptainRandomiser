@@ -1,5 +1,0 @@
-dotnet restore .\devplus.sln
-dotnet build ..\..\devplus.sln
-dotnet publish ..\..\DevPlus.sln -c Release -o ./obj/Docker/publish
-docker build -t devplus .
-docker run -p 4000:80 devplus

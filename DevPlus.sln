@@ -29,8 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Infrastructure.Hang
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86BBA9D6-7814-4C52-ADD7-6E3B31396D8A}"
 	ProjectSection(SolutionItems) = preProject
-		Docker Commands.txt = Docker Commands.txt
-		EF Core Commands.txt = EF Core Commands.txt
+		Develop Commands.txt = Develop Commands.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{72B11759-90E1-47D3-A6FA-CF41B02AC055}"
@@ -43,7 +42,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.UnitTests.Common", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Domain.Services.UnitTests", "src\Tests\UnitTests\DevPlus.Domain.Services.UnitTests\DevPlus.Domain.Services.UnitTests.csproj", "{2121BD03-0ED3-46B5-900C-6F3534E3AC9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevPlus.Tests.Common", "src\Tests\DevPlus.Tests.Common\DevPlus.Tests.Common.csproj", "{BFBFBC9C-49CC-47ED-B9A6-3F2290ABB4C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevPlus.Tests.Common", "src\Tests\DevPlus.Tests.Common\DevPlus.Tests.Common.csproj", "{BFBFBC9C-49CC-47ED-B9A6-3F2290ABB4C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -61,7 +61,7 @@ namespace DevPlus.Website
             //services.AddHangfire(config =>
             //    config.UseSqlServerStorage(hangfireConnection));
 
-            services.AddHangfire(config => config.UseRedisStorage("testsearch.infotrack.com.au:16379"));
+            //services.AddHangfire(config => config.UseRedisStorage("testsearch.infotrack.com.au:16379"));
 
             // add identity
             //services.AddIdentity()
@@ -77,6 +77,7 @@ namespace DevPlus.Website
                 cfg.AddProfile<AutoMapperProfile>();
             });
 
+            //refactor below code
             //Repositories
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IReleaseService, ReleaseService>();
@@ -96,8 +97,8 @@ namespace DevPlus.Website
             loggerFactory.AddDebug(LogLevel.Warning);
             loggerFactory.AddFile(Configuration.GetSection("Logging")); //let's use Serilog :)
 
-            app.UseHangfireServer();
-            app.UseHangfireDashboard();
+            //app.UseHangfireServer();
+            //app.UseHangfireDashboard();
 
             Utilities.ConfigureLogger(loggerFactory);
 
@@ -105,15 +106,17 @@ namespace DevPlus.Website
             {
                 app.UseDeveloperExceptionPage();
 
-                //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                //{
-                //    HotModuleReplacement = true
-                //});
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true
+                });
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseStaticFiles();
 
             //app.Run(async (context) =>
             //{
@@ -176,12 +179,12 @@ namespace DevPlus.Website
             }
             try
             {
-                string daily_TenThirty = "30 10 * * 1-4";
-                RecurringJob.AddOrUpdate("ReleaseService.GetTodayReleaseNote", () => releaseService.GetTodayReleaseNote(), daily_TenThirty);
+                //string daily_TenThirty = "30 10 * * 1-4";
+                //RecurringJob.AddOrUpdate("ReleaseService.GetTodayReleaseNote", () => releaseService.GetTodayReleaseNote(), daily_TenThirty);
 
-                var jobName = "ReleaseService.GetTodayReleaseNote";
-                var con = JobStorage.Current.GetConnection();
-                var recJob = con.GetAllEntriesFromHash($"recurring-job:{jobName}");
+                //var jobName = "ReleaseService.GetTodayReleaseNote";
+                //var con = JobStorage.Current.GetConnection();
+                //var recJob = con.GetAllEntriesFromHash($"recurring-job:{jobName}");
                 //var jobId = BackgroundJob.Enqueue(() => releaseService.GetTodayReleaseNote());
              
             }

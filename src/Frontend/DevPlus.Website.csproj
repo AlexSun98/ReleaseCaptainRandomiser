@@ -7,10 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\app\assets\" />
-    <Folder Include="ClientApp\app\directives\" />
-    <Folder Include="ClientApp\app\models\" />
-    <Folder Include="ClientApp\app\pipes\" />
+    <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +37,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\DevPlus.Infrastructure.DependencyResolution\DevPlus.Infrastructure.DependencyResolution.csproj" />
     <ProjectReference Include="..\Infrastructure\DevPlus.Infrastructure\DevPlus.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="ClientApp\app\assets\locale\en.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

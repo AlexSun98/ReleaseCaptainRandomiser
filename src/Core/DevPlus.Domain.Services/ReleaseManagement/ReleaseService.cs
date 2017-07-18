@@ -15,7 +15,7 @@ namespace DevPlus.Domain.Services.ReleaseManagement
     public class ReleaseService : IReleaseService
     {
         private IReleaseNoteRepository _releaseRepository = CoreServiceLocator.Current.GetInstance<IReleaseNoteRepository>();
-        private ITestService _testService = CoreServiceLocator.Current.GetInstance<ITestService>();
+        //private ITestService _testService = CoreServiceLocator.Current.GetInstance<ITestService>();
 
         /// <summary>
         /// Try to get data from database
@@ -54,7 +54,7 @@ namespace DevPlus.Domain.Services.ReleaseManagement
 
         public List<ReleaseNoteModel> GetTodayReleaseNote()
         {
-            var test = _testService.Echo("Hello");
+            //var test = _testService.Echo("Hello");
 
             var result = new List<ReleaseNoteModel>();
             result = GetTodayReleaseNoteFromDb();
