@@ -26,3 +26,5 @@
 
 	webpack --config .\webpack.config.vendor.js
 	webpack
+
+4. Enable HRM and watcher for develop envrionment in order to update source code at runtime

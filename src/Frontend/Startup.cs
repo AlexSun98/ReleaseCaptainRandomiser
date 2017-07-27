@@ -25,6 +25,8 @@ using DevPlus.Domain.Interfaces.DomainServices;
 using DevPlus.Domain.Models;
 using System.Collections.Generic;
 using DevPlus.Domain.Services.ReleaseManagement;
+using Autofac;
+using DevPlus.Infrastructure.DependencyResolution.AutofacConfiguration;
 
 namespace DevPlus.Website
 {
@@ -79,15 +81,20 @@ namespace DevPlus.Website
 
             //refactor below code
             //Repositories
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IReleaseService, ReleaseService>();
+            //services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //services.AddScoped<IReleaseService, ReleaseService>();
 
             //DB Creation and Seeding
-            services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+            //services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
 
             // IOC management
 
-            DependencyBootstrapper.EnsureDependenciesRegistered();
+            DependencyBootstrapper.EnsureDependenciesRegistered(); //-- refactoring service locator which is a anti parttern.  DI pattern is a way to go
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new DevPlusModule());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,3 +1,45 @@
+////ng core
+//import { NgModule, ErrorHandler } from "@angular/core";
+//import { RouterModule } from "@angular/router";
+//import { FormsModule } from "@angular/forms";
+//import { BrowserModule } from '@angular/platform-browser';
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//import { HttpModule } from '@angular/http';
+////ng bootstrap
+//import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+//import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+//import { ToastyModule } from 'ng2-toasty';
+//import { ModalModule } from 'ngx-bootstrap/modal';
+//import { TooltipModule } from "ngx-bootstrap/tooltip";
+//import { PopoverModule } from "ngx-bootstrap/popover";
+//import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+//import { CarouselModule } from 'ngx-bootstrap/carousel';
+//import { ChartsModule } from 'ng2-charts';
+////ng services
+//import { AppRoutingModule } from './app-routing.module';
+//import { AppErrorHandler } from './app-error.handler';
+//import { AppTitleService } from './services/app-title.service';
+//import { AppTranslationService, TranslateLanguageLoader } from './services/app-translation.service';
+//import { ConfigurationService } from './services/configuration.service';
+//import { AlertService } from './services/alert.service';
+//import { LocalStoreManager } from './services/local-store-manager.service';
+//import { EndpointFactory } from './services/endpoint-factory.service';
+//import { NotificationService } from './services/notification.service';
+//import { NotificationEndpoint } from './services/notification-endpoint.service';
+//import { AccountService } from './services/account.service';
+//import { AccountEndpoint } from './services/account-endpoint.service';
+////ng directives
+//import { EqualValidator } from './directives/equal-validator.directive';
+//import { LastElementDirective } from './directives/last-element.directive';
+//import { AutofocusDirective } from './directives/autofocus.directive';
+//import { BootstrapTabDirective } from './directives/bootstrap-tab.directive';
+//import { BootstrapToggleDirective } from './directives/bootstrap-toggle.directive';
+//import { BootstrapSelectDirective } from './directives/bootstrap-select.directive';
+//import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.directive';
+//import { GroupByPipe } from './pipes/group-by.pipe';
+////ng components
+//import { AppComponent } from "./components/app.component";
+//import { LoginComponent } from "./components/login/login.component";
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -6,46 +48,82 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//ng core
+//@NgModule({
+//    //imports module - packge.json (NPM)
+//    imports: [
+//        BrowserModule,
+//        BrowserAnimationsModule,
+//        HttpModule,
+//        FormsModule,
+//        AppRoutingModule,
+//        TranslateModule.forRoot({
+//            loader: {
+//                provide: TranslateLoader,
+//                useClass: TranslateLanguageLoader
+//            }
+//        }),
+//        NgxDatatableModule,
+//        ToastyModule.forRoot(),
+//        TooltipModule.forRoot(),
+//        PopoverModule.forRoot(),
+//        BsDropdownModule.forRoot(),
+//        CarouselModule.forRoot(),
+//        ModalModule.forRoot(),
+//        ChartsModule
+//    ],
+//    //app's root components
+//    declarations: [
+//        AppComponent,
+//        //LoginComponent,
+//        //HomeComponent,
+//        //CustomersComponent,
+//        //ProductsComponent,
+//        //OrdersComponent,
+//        //SettingsComponent,
+//        //UsersManagementComponent, UserInfoComponent, UserPreferencesComponent,
+//        //RolesManagementComponent, RoleEditorComponent,
+//        //AboutComponent,
+//        //NotFoundComponent,
+//        //NotificationsViewerComponent,
+//        //SearchBoxComponent,
+//        //StatisticsDemoComponent, TodoDemoComponent, BannerDemoComponent,
+//        EqualValidator,
+//        LastElementDirective,
+//        AutofocusDirective,
+//        BootstrapTabDirective,
+//        BootstrapToggleDirective,
+//        BootstrapSelectDirective,
+//        BootstrapDatepickerDirective,
+//        GroupByPipe
+//    ],
+//    //service provider - provide services to all components to use
+//    providers: [
+//        { provide: ErrorHandler, useClass: AppErrorHandler },
+//        AlertService,
+//        ConfigurationService,
+//        AppTitleService,
+//        AppTranslationService,
+//        NotificationService,
+//        NotificationEndpoint,
+//        AccountService,
+//        AccountEndpoint,
+//        LocalStoreManager,
+//        EndpointFactory
+//    ],
+//    //When Angular launches the app, it places the HTML rendering of AppComponent in the DOM, inside the <my-app> element tags of the index.html.
+//    bootstrap: [AppComponent]
+//})
+//export class AppModule { }
+var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var platform_browser_1 = require("@angular/platform-browser");
-var animations_1 = require("@angular/platform-browser/animations");
 var http_1 = require("@angular/http");
-//ng bootstrap
-var core_2 = require("@ngx-translate/core");
-var ngx_datatable_1 = require("@swimlane/ngx-datatable");
-var ng2_toasty_1 = require("ng2-toasty");
-var modal_1 = require("ngx-bootstrap/modal");
-var tooltip_1 = require("ngx-bootstrap/tooltip");
-var popover_1 = require("ngx-bootstrap/popover");
-var dropdown_1 = require("ngx-bootstrap/dropdown");
-var carousel_1 = require("ngx-bootstrap/carousel");
-var ng2_charts_1 = require("ng2-charts");
-//ng services
-var app_routing_module_1 = require("./app-routing.module");
-var app_error_handler_1 = require("./app-error.handler");
-var app_title_service_1 = require("./services/app-title.service");
-var app_translation_service_1 = require("./services/app-translation.service");
-var configuration_service_1 = require("./services/configuration.service");
-var alert_service_1 = require("./services/alert.service");
-var local_store_manager_service_1 = require("./services/local-store-manager.service");
-var endpoint_factory_service_1 = require("./services/endpoint-factory.service");
-var notification_service_1 = require("./services/notification.service");
-var notification_endpoint_service_1 = require("./services/notification-endpoint.service");
-var account_service_1 = require("./services/account.service");
-var account_endpoint_service_1 = require("./services/account-endpoint.service");
-//ng directives
-var equal_validator_directive_1 = require("./directives/equal-validator.directive");
-var last_element_directive_1 = require("./directives/last-element.directive");
-var autofocus_directive_1 = require("./directives/autofocus.directive");
-var bootstrap_tab_directive_1 = require("./directives/bootstrap-tab.directive");
-var bootstrap_toggle_directive_1 = require("./directives/bootstrap-toggle.directive");
-var bootstrap_select_directive_1 = require("./directives/bootstrap-select.directive");
-var bootstrap_datepicker_directive_1 = require("./directives/bootstrap-datepicker.directive");
-var group_by_pipe_1 = require("./pipes/group-by.pipe");
-//ng components
-var app_component_1 = require("./components/app.component");
+var app_component_1 = require("./app.component");
+var quiz_component_1 = require("./components/quiz.component");
+var not_found_component_1 = require("./components/not-found.component");
+var score_component_1 = require("./components/score.component");
+var home_component_1 = require("./components/home.component");
+var app_routing_1 = require("./app.routing");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -53,68 +131,20 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        //imports module - packge.json (NPM)
-        imports: [
-            platform_browser_1.BrowserModule,
-            animations_1.BrowserAnimationsModule,
-            http_1.HttpModule,
-            forms_1.FormsModule,
-            app_routing_module_1.AppRoutingModule,
-            core_2.TranslateModule.forRoot({
-                loader: {
-                    provide: core_2.TranslateLoader,
-                    useClass: app_translation_service_1.TranslateLanguageLoader
-                }
-            }),
-            ngx_datatable_1.NgxDatatableModule,
-            ng2_toasty_1.ToastyModule.forRoot(),
-            tooltip_1.TooltipModule.forRoot(),
-            popover_1.PopoverModule.forRoot(),
-            dropdown_1.BsDropdownModule.forRoot(),
-            carousel_1.CarouselModule.forRoot(),
-            modal_1.ModalModule.forRoot(),
-            ng2_charts_1.ChartsModule
-        ],
-        //app's root components
         declarations: [
             app_component_1.AppComponent,
-            //LoginComponent,
-            //HomeComponent,
-            //CustomersComponent,
-            //ProductsComponent,
-            //OrdersComponent,
-            //SettingsComponent,
-            //UsersManagementComponent, UserInfoComponent, UserPreferencesComponent,
-            //RolesManagementComponent, RoleEditorComponent,
-            //AboutComponent,
-            //NotFoundComponent,
-            //NotificationsViewerComponent,
-            //SearchBoxComponent,
-            //StatisticsDemoComponent, TodoDemoComponent, BannerDemoComponent,
-            equal_validator_directive_1.EqualValidator,
-            last_element_directive_1.LastElementDirective,
-            autofocus_directive_1.AutofocusDirective,
-            bootstrap_tab_directive_1.BootstrapTabDirective,
-            bootstrap_toggle_directive_1.BootstrapToggleDirective,
-            bootstrap_select_directive_1.BootstrapSelectDirective,
-            bootstrap_datepicker_directive_1.BootstrapDatepickerDirective,
-            group_by_pipe_1.GroupByPipe
+            quiz_component_1.QuizComponent,
+            not_found_component_1.PageNotFoundComponent,
+            score_component_1.ScoreComponent,
+            home_component_1.HomeComponent
         ],
-        //service provider - provide services to all components to use
-        providers: [
-            { provide: core_1.ErrorHandler, useClass: app_error_handler_1.AppErrorHandler },
-            alert_service_1.AlertService,
-            configuration_service_1.ConfigurationService,
-            app_title_service_1.AppTitleService,
-            app_translation_service_1.AppTranslationService,
-            notification_service_1.NotificationService,
-            notification_endpoint_service_1.NotificationEndpoint,
-            account_service_1.AccountService,
-            account_endpoint_service_1.AccountEndpoint,
-            local_store_manager_service_1.LocalStoreManager,
-            endpoint_factory_service_1.EndpointFactory
+        imports: [
+            platform_browser_1.BrowserModule,
+            forms_1.FormsModule,
+            http_1.HttpModule,
+            app_routing_1.routing
         ],
-        //When Angular launches the app, it places the HTML rendering of AppComponent in the DOM, inside the <my-app> element tags of the index.html.
+        providers: [],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);

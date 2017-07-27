@@ -15,14 +15,17 @@ namespace DevPlus.Domain.Services.ReleaseManagement
     public class ReleaseService : IReleaseService
     {
         private IReleaseNoteRepository _releaseRepository = CoreServiceLocator.Current.GetInstance<IReleaseNoteRepository>();
-        //private ITestService _testService = CoreServiceLocator.Current.GetInstance<ITestService>();
+        //private ITestService _testService;
 
+        //public ReleaseService(ITestService testService) {
+        //    _testService = testService;
+        //}
         /// <summary>
         /// Try to get data from database
         /// </summary>
         /// <returns></returns>
         public List<ReleaseNoteModel> GetTodayReleaseNoteFromDb()
-        {   
+        {
             var releaseNotes = _releaseRepository.GetTodayReleaseNote().ToList();
             var releaseNotesModels = CoreAutoMapper.Current.Map<List<ReleaseNote>, List<ReleaseNoteModel>>(releaseNotes);
             return releaseNotesModels;
