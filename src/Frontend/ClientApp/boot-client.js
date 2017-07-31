@@ -1,27 +1,25 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-require("core-js/client/shim");
-require("web-animations-js");
-require("zone.js");
-var core_1 = require("@angular/core");
-var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
-var app_module_1 = require("./app/app.module");
-require("bootstrap");
-var rootElemTagName = 'my-app'; //root element tag
+import 'core-js/client/shim';
+import 'web-animations-js';
+import 'zone.js';
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app/app.module';
+import 'bootstrap';
+const rootElemTagName = 'my-app'; //root element tag
 if (module['hot']) {
     module['hot'].accept();
-    module['hot'].dispose(function () {
+    module['hot'].dispose(() => {
         // Before restarting the app, we create a new root element and dispose the old one
-        var oldRootElem = document.querySelector(rootElemTagName);
-        var newRootElem = document.createElement(rootElemTagName);
+        const oldRootElem = document.querySelector(rootElemTagName);
+        const newRootElem = document.createElement(rootElemTagName);
         oldRootElem.parentNode.insertBefore(newRootElem, oldRootElem);
-        modulePromise.then(function (appModule) { return appModule.destroy(); });
+        modulePromise.then(appModule => appModule.destroy());
     });
 }
 else {
-    core_1.enableProdMode();
+    enableProdMode();
 }
 // Note: @ng-tools/webpack looks for the following expression when performing production
 // builds. Don't change how this line looks, otherwise you may break tree-shaking.
-var modulePromise = platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
+const modulePromise = platformBrowserDynamic().bootstrapModule(AppModule);
 //# sourceMappingURL=boot-client.js.map

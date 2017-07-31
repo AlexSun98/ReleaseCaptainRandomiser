@@ -1,18 +1,16 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
-var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/of");
-require("rxjs/add/operator/map");
-var NotificationEndpoint = (function () {
-    function NotificationEndpoint() {
+import { Injectable } from '@angular/core';
+import { Response, ResponseOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+let NotificationEndpoint = class NotificationEndpoint {
+    constructor() {
         this.demoNotifications = [
             {
                 "id": 1,
@@ -40,35 +38,35 @@ var NotificationEndpoint = (function () {
             }
         ];
     }
-    NotificationEndpoint.prototype.getNotificationEndpoint = function (notificationId) {
-        var notification = this.demoNotifications.find(function (val) { return val.id == notificationId; });
-        var response;
+    getNotificationEndpoint(notificationId) {
+        let notification = this.demoNotifications.find(val => val.id == notificationId);
+        let response;
         if (notification) {
             response = this.createResponse(notification, 200);
         }
         else {
             response = this.createResponse(null, 404);
         }
-        return Observable_1.Observable.of(response);
-    };
-    NotificationEndpoint.prototype.getNotificationsEndpoint = function (page, pageSize) {
-        var notifications = this.demoNotifications;
-        var response = this.createResponse(this.demoNotifications, 200);
-        return Observable_1.Observable.of(response);
-    };
-    NotificationEndpoint.prototype.getUnreadNotificationsEndpoint = function (userId) {
-        var unreadNotifications = this.demoNotifications.filter(function (val) { return !val.isRead; });
-        var response = this.createResponse(unreadNotifications, 200);
-        return Observable_1.Observable.of(response);
-    };
-    NotificationEndpoint.prototype.getNewNotificationsEndpoint = function (lastNotificationDate) {
-        var unreadNotifications = this.demoNotifications;
-        var response = this.createResponse(unreadNotifications, 200);
-        return Observable_1.Observable.of(response);
-    };
-    NotificationEndpoint.prototype.getPinUnpinNotificationEndpoint = function (notificationId, isPinned) {
-        var notification = this.demoNotifications.find(function (val) { return val.id == notificationId; });
-        var response;
+        return Observable.of(response);
+    }
+    getNotificationsEndpoint(page, pageSize) {
+        let notifications = this.demoNotifications;
+        let response = this.createResponse(this.demoNotifications, 200);
+        return Observable.of(response);
+    }
+    getUnreadNotificationsEndpoint(userId) {
+        let unreadNotifications = this.demoNotifications.filter(val => !val.isRead);
+        let response = this.createResponse(unreadNotifications, 200);
+        return Observable.of(response);
+    }
+    getNewNotificationsEndpoint(lastNotificationDate) {
+        let unreadNotifications = this.demoNotifications;
+        let response = this.createResponse(unreadNotifications, 200);
+        return Observable.of(response);
+    }
+    getPinUnpinNotificationEndpoint(notificationId, isPinned) {
+        let notification = this.demoNotifications.find(val => val.id == notificationId);
+        let response;
         if (notification) {
             response = this.createResponse(null, 204);
             if (isPinned == null)
@@ -79,42 +77,36 @@ var NotificationEndpoint = (function () {
         else {
             response = this.createResponse(null, 404);
         }
-        return Observable_1.Observable.of(response);
-    };
-    NotificationEndpoint.prototype.getReadUnreadNotificationEndpoint = function (notificationIds, isRead) {
-        var _loop_1 = function (notificationId) {
-            var notification = this_1.demoNotifications.find(function (val) { return val.id == notificationId; });
+        return Observable.of(response);
+    }
+    getReadUnreadNotificationEndpoint(notificationIds, isRead) {
+        for (let notificationId of notificationIds) {
+            let notification = this.demoNotifications.find(val => val.id == notificationId);
             if (notification) {
                 notification.isRead = isRead;
             }
-        };
-        var this_1 = this;
-        for (var _i = 0, notificationIds_1 = notificationIds; _i < notificationIds_1.length; _i++) {
-            var notificationId = notificationIds_1[_i];
-            _loop_1(notificationId);
         }
-        var response = this.createResponse(null, 204);
-        return Observable_1.Observable.of(response);
-    };
-    NotificationEndpoint.prototype.getDeleteNotificationEndpoint = function (notificationId) {
-        var notification = this.demoNotifications.find(function (val) { return val.id == notificationId; });
-        var response;
+        let response = this.createResponse(null, 204);
+        return Observable.of(response);
+    }
+    getDeleteNotificationEndpoint(notificationId) {
+        let notification = this.demoNotifications.find(val => val.id == notificationId);
+        let response;
         if (notification) {
-            this.demoNotifications = this.demoNotifications.filter(function (val) { return val.id != notificationId; });
+            this.demoNotifications = this.demoNotifications.filter(val => val.id != notificationId);
             response = this.createResponse(notification, 200);
         }
         else {
             response = this.createResponse(null, 404);
         }
-        return Observable_1.Observable.of(response);
-    };
-    NotificationEndpoint.prototype.createResponse = function (body, status) {
-        return new http_1.Response(new http_1.ResponseOptions({ body: body, status: status }));
-    };
-    return NotificationEndpoint;
-}());
+        return Observable.of(response);
+    }
+    createResponse(body, status) {
+        return new Response(new ResponseOptions({ body: body, status: status }));
+    }
+};
 NotificationEndpoint = __decorate([
-    core_1.Injectable()
+    Injectable()
 ], NotificationEndpoint);
-exports.NotificationEndpoint = NotificationEndpoint;
+export { NotificationEndpoint };
 //# sourceMappingURL=notification-endpoint.service.js.map

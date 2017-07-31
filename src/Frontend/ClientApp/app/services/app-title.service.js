@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,48 +7,45 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var platform_browser_1 = require("@angular/platform-browser");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/mergeMap");
-require("rxjs/add/operator/filter");
-var utilities_1 = require("./utilities");
-var AppTitleService = (function () {
-    function AppTitleService(titleService, router) {
-        var _this = this;
+import { Injectable } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/filter';
+import { Utilities } from './utilities';
+let AppTitleService = class AppTitleService {
+    constructor(titleService, router) {
         this.titleService = titleService;
         this.router = router;
         this.sub = this.router.events
-            .filter(function (event) { return event instanceof router_1.NavigationEnd; })
-            .map(function (_) { return _this.router.routerState.root; })
-            .map(function (route) {
+            .filter(event => event instanceof NavigationEnd)
+            .map(_ => this.router.routerState.root)
+            .map(route => {
             while (route.firstChild)
                 route = route.firstChild;
             return route;
         })
-            .flatMap(function (route) { return route.data; })
-            .subscribe(function (data) {
-            var title = data['title'];
+            .flatMap(route => route.data)
+            .subscribe(data => {
+            let title = data['title'];
             if (title) {
-                var fragment = _this.router.url.split('#')[1];
+                let fragment = this.router.url.split('#')[1];
                 if (fragment)
-                    title += " | " + utilities_1.Utilities.toTitleCase(fragment);
+                    title += " | " + Utilities.toTitleCase(fragment);
             }
-            if (title && _this.appName)
-                title += ' - ' + _this.appName;
-            else if (_this.appName)
-                title = _this.appName;
+            if (title && this.appName)
+                title += ' - ' + this.appName;
+            else if (this.appName)
+                title = this.appName;
             if (title)
-                _this.titleService.setTitle(title);
+                this.titleService.setTitle(title);
         });
     }
-    return AppTitleService;
-}());
+};
 AppTitleService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [platform_browser_1.Title, router_1.Router])
+    Injectable(),
+    __metadata("design:paramtypes", [Title, Router])
 ], AppTitleService);
-exports.AppTitleService = AppTitleService;
+export { AppTitleService };
 //# sourceMappingURL=app-title.service.js.map

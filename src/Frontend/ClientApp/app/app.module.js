@@ -40,14 +40,12 @@
 ////ng components
 //import { AppComponent } from "./components/app.component";
 //import { LoginComponent } from "./components/login/login.component";
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 //@NgModule({
 //    //imports module - packge.json (NPM)
 //    imports: [
@@ -114,39 +112,104 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //    bootstrap: [AppComponent]
 //})
 //export class AppModule { }
-var platform_browser_1 = require("@angular/platform-browser");
-var core_1 = require("@angular/core");
-var forms_1 = require("@angular/forms");
-var http_1 = require("@angular/http");
-var app_component_1 = require("./app.component");
-var quiz_component_1 = require("./components/quiz.component");
-var not_found_component_1 = require("./components/not-found.component");
-var score_component_1 = require("./components/score.component");
-var home_component_1 = require("./components/home.component");
-var app_routing_1 = require("./app.routing");
-var AppModule = (function () {
-    function AppModule() {
-    }
-    return AppModule;
-}());
+//import { BrowserModule } from '@angular/platform-browser';
+//import { NgModule } from '@angular/core';
+//import { FormsModule } from '@angular/forms';
+//import { ReactiveFormsModule } from '@angular/forms';
+//import { HttpModule } from '@angular/http';
+//import { AppComponent } from './app.component';
+//import { QuizComponent } from './components/quiz.component';
+//import { PageNotFoundComponent  } from './components/not-found.component';
+//import { ScoreComponent  } from './components/score.component';
+//import { HomeComponent  } from  './components/home.component';
+//import {routing} from './app.routing';
+//@NgModule({
+//  declarations: [
+//    AppComponent,
+//    QuizComponent,
+//    PageNotFoundComponent,
+//    ScoreComponent,
+//    HomeComponent
+//  ],
+//  imports: [
+//    BrowserModule,
+//    FormsModule,
+//    HttpModule,
+//    routing 
+//  ],
+//  providers: [],
+//  bootstrap: [AppComponent]
+//})
+//export class AppModule { }
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { DBModule } from '@ngrx/db';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { CoreModule } from './modules/core/core.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { routes } from './routes';
+import { reducers, metaReducers } from './modules/reducers';
+import { schema } from './db';
+import { AppComponent } from './modules/core/containers/app';
+import { environment } from './environments/environment';
+let AppModule = class AppModule {
+};
 AppModule = __decorate([
-    core_1.NgModule({
-        declarations: [
-            app_component_1.AppComponent,
-            quiz_component_1.QuizComponent,
-            not_found_component_1.PageNotFoundComponent,
-            score_component_1.ScoreComponent,
-            home_component_1.HomeComponent
-        ],
+    NgModule({
         imports: [
-            platform_browser_1.BrowserModule,
-            forms_1.FormsModule,
-            http_1.HttpModule,
-            app_routing_1.routing
+            CommonModule,
+            BrowserModule,
+            BrowserAnimationsModule,
+            HttpModule,
+            RouterModule.forRoot(routes, { useHash: true }),
+            /**
+             * StoreModule.forRoot is imported once in the root module, accepting a reducer
+             * function or object map of reducer functions. If passed an object of
+             * reducers, combineReducers will be run creating your application
+             * meta-reducer. This returns all providers for an @ngrx/store
+             * based application.
+             */
+            StoreModule.forRoot(reducers, { metaReducers }),
+            /**
+             * @ngrx/router-store keeps router state up-to-date in the store.
+             */
+            StoreRouterConnectingModule,
+            /**
+             * Store devtools instrument the store retaining past versions of state
+             * and recalculating new states. This enables powerful time-travel
+             * debugging.
+             *
+             * To use the debugger, install the Redux Devtools extension for either
+             * Chrome or Firefox
+             *
+             * See: https://github.com/zalmoxisus/redux-devtools-extension
+             */
+            !environment.production ? StoreDevtoolsModule.instrument() : [],
+            /**
+             * EffectsModule.forRoot() is imported once in the root module and
+             * sets up the effects class to be initialized immediately when the
+             * application starts.
+             *
+             * See: https://github.com/ngrx/platform/blob/master/docs/effects/api.md#forroot
+             */
+            EffectsModule.forRoot([]),
+            /**
+             * `provideDB` sets up @ngrx/db with the provided schema and makes the Database
+             * service available.
+             */
+            DBModule.provideDB(schema),
+            CoreModule.forRoot(),
+            AuthModule.forRoot()
         ],
-        providers: [],
-        bootstrap: [app_component_1.AppComponent]
+        bootstrap: [AppComponent],
     })
 ], AppModule);
-exports.AppModule = AppModule;
+export { AppModule };
 //# sourceMappingURL=app.module.js.map

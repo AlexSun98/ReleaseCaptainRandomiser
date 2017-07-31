@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,76 +7,69 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/fromEvent");
-var $ = require("jquery");
-require("bootstrap-toggle/js/bootstrap-toggle");
-var BootstrapToggleDirective = (function () {
-    function BootstrapToggleDirective(el) {
-        var _this = this;
+import { Directive, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
+import * as $ from 'jquery';
+import 'bootstrap-toggle/js/bootstrap-toggle';
+let BootstrapToggleDirective = class BootstrapToggleDirective {
+    constructor(el) {
         this.el = el;
-        this.ngModelChange = new core_1.EventEmitter();
-        this.checkedSubscription = Observable_1.Observable.fromEvent($(this.el.nativeElement), 'change')
-            .subscribe(function (e) { return _this.ngModelChange.emit(e.target.checked); });
+        this.ngModelChange = new EventEmitter();
+        this.checkedSubscription = Observable.fromEvent($(this.el.nativeElement), 'change')
+            .subscribe((e) => this.ngModelChange.emit(e.target.checked));
     }
-    Object.defineProperty(BootstrapToggleDirective.prototype, "ngModel", {
-        set: function (value) {
-            this.toggle(value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    BootstrapToggleDirective.prototype.ngOnInit = function () {
+    set ngModel(value) {
+        this.toggle(value);
+    }
+    ngOnInit() {
         this.initialize();
-    };
-    BootstrapToggleDirective.prototype.ngOnDestroy = function () {
+    }
+    ngOnDestroy() {
         this.destroy();
-    };
-    BootstrapToggleDirective.prototype.initialize = function (options) {
+    }
+    initialize(options) {
         $(this.el.nativeElement).bootstrapToggle(options);
-    };
-    BootstrapToggleDirective.prototype.destroy = function () {
+    }
+    destroy() {
         if (this.checkedSubscription)
             this.checkedSubscription.unsubscribe();
         $(this.el.nativeElement).bootstrapToggle('destroy');
-    };
-    BootstrapToggleDirective.prototype.toggleOn = function () {
+    }
+    toggleOn() {
         $(this.el.nativeElement).bootstrapToggle('on');
-    };
-    BootstrapToggleDirective.prototype.toggleOff = function () {
+    }
+    toggleOff() {
         $(this.el.nativeElement).bootstrapToggle('off');
-    };
-    BootstrapToggleDirective.prototype.toggle = function (value) {
+    }
+    toggle(value) {
         if (value == null)
             $(this.el.nativeElement).bootstrapToggle('toggle');
         else
             $(this.el.nativeElement).prop('checked', value).change();
-    };
-    BootstrapToggleDirective.prototype.enable = function () {
+    }
+    enable() {
         $(this.el.nativeElement).bootstrapToggle('enable');
-    };
-    BootstrapToggleDirective.prototype.disable = function () {
+    }
+    disable() {
         $(this.el.nativeElement).bootstrapToggle('disable');
-    };
-    return BootstrapToggleDirective;
-}());
+    }
+};
 __decorate([
-    core_1.Input(),
+    Input(),
     __metadata("design:type", Object),
     __metadata("design:paramtypes", [Object])
 ], BootstrapToggleDirective.prototype, "ngModel", null);
 __decorate([
-    core_1.Output(),
+    Output(),
     __metadata("design:type", Object)
 ], BootstrapToggleDirective.prototype, "ngModelChange", void 0);
 BootstrapToggleDirective = __decorate([
-    core_1.Directive({
+    Directive({
         selector: '[bootstrapToggle]',
         exportAs: 'bootstrap-toggle'
     }),
-    __metadata("design:paramtypes", [core_1.ElementRef])
+    __metadata("design:paramtypes", [ElementRef])
 ], BootstrapToggleDirective);
-exports.BootstrapToggleDirective = BootstrapToggleDirective;
+export { BootstrapToggleDirective };
 //# sourceMappingURL=bootstrap-toggle.directive.js.map

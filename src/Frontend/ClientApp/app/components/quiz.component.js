@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,19 +7,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var quiz_service_1 = require("../services/quiz.service");
-var router_1 = require("@angular/router");
-var router_2 = require("@angular/router");
-var QuizComponent = (function () {
-    function QuizComponent(QuizService, route, router) {
+import { Component } from '@angular/core';
+import { QuizService } from '../services/quiz.service';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+let QuizComponent = class QuizComponent {
+    constructor(QuizService, route, router) {
         this.QuizService = QuizService;
         this.route = route;
         this.router = router;
         this.score = 0;
     }
-    QuizComponent.prototype.VerifyAnswer = function (o, e) {
+    VerifyAnswer(o, e) {
         if (o == this.q.r) {
             this.score = this.score + 10;
         }
@@ -33,38 +31,36 @@ var QuizComponent = (function () {
             // navigate to next Question
             this.router.navigate(['/' + (this.id + 1)]);
         }
-    };
-    QuizComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.sub = this.route.params.subscribe(function (params) {
+    }
+    ngOnInit() {
+        this.sub = this.route.params.subscribe(params => {
             // (+) converts string 'id' to a number
             // fetch the file and get next Question
-            _this.id = +params['id'];
+            this.id = +params['id'];
             if (localStorage.getItem('q') !== null) {
                 var data = JSON.parse(localStorage.getItem('q'));
-                _this.qNumber = parseInt(localStorage.getItem('qNumber'));
-                _this.q = data.results[_this.id - 1];
+                this.qNumber = parseInt(localStorage.getItem('qNumber'));
+                this.q = data.results[this.id - 1];
             }
             else {
-                _this.QuizService.getQuestion();
+                this.QuizService.getQuestion();
                 var data = JSON.parse(localStorage.getItem('q'));
-                _this.qNumber = parseInt(localStorage.getItem('qNumber'));
-                _this.q = data.results[_this.id - 1];
+                this.qNumber = parseInt(localStorage.getItem('qNumber'));
+                this.q = data.results[this.id - 1];
             }
         });
-    };
-    QuizComponent.prototype.ngOnDestroy = function () {
+    }
+    ngOnDestroy() {
         this.sub.unsubscribe();
-    };
-    return QuizComponent;
-}());
+    }
+};
 QuizComponent = __decorate([
-    core_1.Component({
+    Component({
         selector: 'quiz',
         templateUrl: 'quiz.component.html',
-        providers: [quiz_service_1.QuizService]
+        providers: [QuizService]
     }),
-    __metadata("design:paramtypes", [quiz_service_1.QuizService, router_1.ActivatedRoute, router_2.Router])
+    __metadata("design:paramtypes", [QuizService, ActivatedRoute, Router])
 ], QuizComponent);
-exports.QuizComponent = QuizComponent;
+export { QuizComponent };
 //# sourceMappingURL=quiz.component.js.map

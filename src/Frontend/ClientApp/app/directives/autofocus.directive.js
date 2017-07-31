@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,24 +7,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var AutofocusDirective = (function () {
-    function AutofocusDirective(renderer, elementRef) {
+import { Directive, Renderer, ElementRef } from '@angular/core';
+let AutofocusDirective = class AutofocusDirective {
+    constructor(renderer, elementRef) {
         this.renderer = renderer;
         this.elementRef = elementRef;
     }
-    AutofocusDirective.prototype.ngOnInit = function () {
-        var _this = this;
-        setTimeout(function () { return _this.renderer.invokeElementMethod(_this.elementRef.nativeElement, 'focus', []); }, 500);
-    };
-    return AutofocusDirective;
-}());
+    ngOnInit() {
+        setTimeout(() => this.renderer.invokeElementMethod(this.elementRef.nativeElement, 'focus', []), 500);
+    }
+};
 AutofocusDirective = __decorate([
-    core_1.Directive({
+    Directive({
         selector: '[autofocus]'
     }),
-    __metadata("design:paramtypes", [core_1.Renderer, core_1.ElementRef])
+    __metadata("design:paramtypes", [Renderer, ElementRef])
 ], AutofocusDirective);
-exports.AutofocusDirective = AutofocusDirective;
+export { AutofocusDirective };
 //# sourceMappingURL=autofocus.directive.js.map

@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,55 +7,52 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/fromEvent");
-var $ = require("jquery");
-var BootstrapTabDirective = (function () {
-    function BootstrapTabDirective(el, zone) {
-        var _this = this;
+import { Directive, ElementRef, Output, EventEmitter, NgZone } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
+import * as $ from 'jquery';
+let BootstrapTabDirective = class BootstrapTabDirective {
+    constructor(el, zone) {
         this.el = el;
         this.zone = zone;
-        this.showBSTab = new core_1.EventEmitter();
-        this.hideBSTab = new core_1.EventEmitter();
-        this.tabShownSubscription = Observable_1.Observable.fromEvent($(this.el.nativeElement), 'show.bs.tab')
-            .subscribe(function (e) {
-            _this.runInZone(function () { return _this.showBSTab.emit({ type: e.type, target: e.target, relatedTarget: e.relatedTarget }); });
+        this.showBSTab = new EventEmitter();
+        this.hideBSTab = new EventEmitter();
+        this.tabShownSubscription = Observable.fromEvent($(this.el.nativeElement), 'show.bs.tab')
+            .subscribe((e) => {
+            this.runInZone(() => this.showBSTab.emit({ type: e.type, target: e.target, relatedTarget: e.relatedTarget }));
         });
-        this.tabHiddenSubscription = Observable_1.Observable.fromEvent($(this.el.nativeElement), 'hidden.bs.tab')
-            .subscribe(function (e) {
-            _this.runInZone(function () { return _this.hideBSTab.emit({ type: e.type, target: e.target, relatedTarget: e.relatedTarget }); });
+        this.tabHiddenSubscription = Observable.fromEvent($(this.el.nativeElement), 'hidden.bs.tab')
+            .subscribe((e) => {
+            this.runInZone(() => this.hideBSTab.emit({ type: e.type, target: e.target, relatedTarget: e.relatedTarget }));
         });
     }
-    BootstrapTabDirective.prototype.ngOnDestroy = function () {
+    ngOnDestroy() {
         this.tabShownSubscription.unsubscribe();
         this.tabHiddenSubscription.unsubscribe();
-    };
-    BootstrapTabDirective.prototype.runInZone = function (delegate) {
-        this.zone.run(function () {
+    }
+    runInZone(delegate) {
+        this.zone.run(() => {
             delegate();
         });
-    };
-    BootstrapTabDirective.prototype.show = function (selector) {
+    }
+    show(selector) {
         $(selector).tab('show');
-    };
-    return BootstrapTabDirective;
-}());
+    }
+};
 __decorate([
-    core_1.Output(),
+    Output(),
     __metadata("design:type", Object)
 ], BootstrapTabDirective.prototype, "showBSTab", void 0);
 __decorate([
-    core_1.Output(),
+    Output(),
     __metadata("design:type", Object)
 ], BootstrapTabDirective.prototype, "hideBSTab", void 0);
 BootstrapTabDirective = __decorate([
-    core_1.Directive({
+    Directive({
         selector: '[bootstrapTab]',
         exportAs: 'bootstrap-tab'
     }),
-    __metadata("design:paramtypes", [core_1.ElementRef, core_1.NgZone])
+    __metadata("design:paramtypes", [ElementRef, NgZone])
 ], BootstrapTabDirective);
-exports.BootstrapTabDirective = BootstrapTabDirective;
+export { BootstrapTabDirective };
 //# sourceMappingURL=bootstrap-tab.directive.js.map

@@ -1,14 +1,3 @@
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,15 +7,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var AppErrorHandler = (function (_super) {
-    __extends(AppErrorHandler, _super);
+import { Injectable, ErrorHandler } from "@angular/core";
+let AppErrorHandler = class AppErrorHandler extends ErrorHandler {
     //private alertService: AlertService;
-    function AppErrorHandler() {
-        return _super.call(this, true) || this;
+    constructor() {
+        super(true);
     }
-    AppErrorHandler.prototype.handleError = function (error) {
+    handleError(error) {
         //if (this.alertService == null) {
         //    this.alertService = this.injector.get(AlertService);
         //}
@@ -34,13 +21,12 @@ var AppErrorHandler = (function (_super) {
         //this.alertService.showStickyMessage("Unhandled Error", error.message || error, MessageSeverity.error, error);
         if (confirm("Fatal Error!\nAn unresolved error has occured. Do you want to reload the page to correct this?\n\nError: " + error.message))
             window.location.reload(true);
-        _super.prototype.handleError.call(this, error);
-    };
-    return AppErrorHandler;
-}(core_1.ErrorHandler));
+        super.handleError(error);
+    }
+};
 AppErrorHandler = __decorate([
-    core_1.Injectable(),
+    Injectable(),
     __metadata("design:paramtypes", [])
 ], AppErrorHandler);
-exports.AppErrorHandler = AppErrorHandler;
+export { AppErrorHandler };
 //# sourceMappingURL=app-error.handler.js.map

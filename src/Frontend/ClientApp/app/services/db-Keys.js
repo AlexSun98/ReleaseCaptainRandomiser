@@ -1,17 +1,12 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var DBkeys = (function () {
-    function DBkeys() {
-    }
-    return DBkeys;
-}());
+import { Injectable } from '@angular/core';
+let DBkeys = class DBkeys {
+};
 DBkeys.CURRENT_USER = "current_user";
 DBkeys.USER_PERMISSIONS = "user_permissions";
 DBkeys.ACCESS_TOKEN = "access_token";
@@ -27,7 +22,7 @@ DBkeys.SHOW_DASHBOARD_NOTIFICATIONS = "show_dashboard_notifications";
 DBkeys.SHOW_DASHBOARD_TODO = "show_dashboard_todo";
 DBkeys.SHOW_DASHBOARD_BANNER = "show_dashboard_banner";
 DBkeys = __decorate([
-    core_1.Injectable()
+    Injectable()
 ], DBkeys);
-exports.DBkeys = DBkeys;
+export { DBkeys };
 //# sourceMappingURL=db-Keys.js.map

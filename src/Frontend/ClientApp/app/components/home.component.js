@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,30 +7,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var quiz_service_1 = require("../services/quiz.service");
-var router_1 = require("@angular/router");
-var router_2 = require("@angular/router");
-var HomeComponent = (function () {
-    function HomeComponent(QuizService, route, router) {
+import { Component } from '@angular/core';
+import { QuizService } from '../services/quiz.service';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+let HomeComponent = class HomeComponent {
+    constructor(QuizService, route, router) {
         this.QuizService = QuizService;
         this.route = route;
         this.router = router;
     }
-    HomeComponent.prototype.ngOnInit = function () {
+    ngOnInit() {
         this.QuizService.getQuestion();
-    };
-    HomeComponent.prototype.ngOnDestroy = function () { };
-    return HomeComponent;
-}());
+    }
+    ngOnDestroy() { }
+};
 HomeComponent = __decorate([
-    core_1.Component({
+    Component({
         selector: 'home',
         templateUrl: 'home.component.html',
-        providers: [quiz_service_1.QuizService]
+        providers: [QuizService]
     }),
-    __metadata("design:paramtypes", [quiz_service_1.QuizService, router_1.ActivatedRoute, router_2.Router])
+    __metadata("design:paramtypes", [QuizService, ActivatedRoute, Router])
 ], HomeComponent);
-exports.HomeComponent = HomeComponent;
+export { HomeComponent };
 //# sourceMappingURL=home.component.js.map

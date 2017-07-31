@@ -1,12 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var UserLogin = (function () {
-    function UserLogin(email, password, rememberMe) {
+export class UserLogin {
+    constructor(email, password, rememberMe) {
         this.email = email;
         this.password = password;
         this.rememberMe = rememberMe;
     }
-    return UserLogin;
-}());
-exports.UserLogin = UserLogin;
+}
 //# sourceMappingURL=user-login.model.js.map

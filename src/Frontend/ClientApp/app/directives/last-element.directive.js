@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,39 +7,32 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var LastElementDirective = (function () {
-    function LastElementDirective() {
-        this.lastFunction = new core_1.EventEmitter();
+import { Directive, Input, Output, EventEmitter } from '@angular/core';
+let LastElementDirective = class LastElementDirective {
+    constructor() {
+        this.lastFunction = new EventEmitter();
     }
-    Object.defineProperty(LastElementDirective.prototype, "lastElement", {
-        set: function (isLastElement) {
-            var _this = this;
-            if (isLastElement) {
-                setTimeout(function () {
-                    _this.lastFunction.emit();
-                });
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return LastElementDirective;
-}());
+    set lastElement(isLastElement) {
+        if (isLastElement) {
+            setTimeout(() => {
+                this.lastFunction.emit();
+            });
+        }
+    }
+};
 __decorate([
-    core_1.Input(),
+    Input(),
     __metadata("design:type", Boolean),
     __metadata("design:paramtypes", [Boolean])
 ], LastElementDirective.prototype, "lastElement", null);
 __decorate([
-    core_1.Output(),
+    Output(),
     __metadata("design:type", Object)
 ], LastElementDirective.prototype, "lastFunction", void 0);
 LastElementDirective = __decorate([
-    core_1.Directive({
+    Directive({
         selector: '[lastElement]'
     })
 ], LastElementDirective);
-exports.LastElementDirective = LastElementDirective;
+export { LastElementDirective };
 //# sourceMappingURL=last-element.directive.js.map

@@ -1,28 +1,24 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
-var Utilities = Utilities_1 = (function () {
-    function Utilities() {
-    }
-    Utilities.getHttpResponseMessage = function (data) {
-        var responses = [];
-        if (data instanceof http_1.Response) {
+import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+let Utilities = Utilities_1 = class Utilities {
+    static getHttpResponseMessage(data) {
+        let responses = [];
+        if (data instanceof Response) {
             if (this.checkNoNetwork(data)) {
-                responses.push("" + this.noNetworkMessageCaption + this.captionAndMessageSeparator + " " + this.noNetworkMessageDetail);
+                responses.push(`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`);
             }
             else {
                 try {
-                    var responseObject = data.json();
-                    for (var key in responseObject) {
+                    let responseObject = data.json();
+                    for (let key in responseObject) {
                         if (key)
-                            responses.push("" + key + this.captionAndMessageSeparator + " " + responseObject[key]);
+                            responses.push(`${key}${this.captionAndMessageSeparator} ${responseObject[key]}`);
                         else if (responseObject[key])
                             responses.push(responseObject[key].toString());
                     }
@@ -36,80 +32,76 @@ var Utilities = Utilities_1 = (function () {
         if (!responses.length)
             responses.push(data.toString());
         if (this.checkAccessDenied(data))
-            responses.splice(0, 0, "" + this.accessDeniedMessageCaption + this.captionAndMessageSeparator + " " + this.accessDeniedMessageDetail);
+            responses.splice(0, 0, `${this.accessDeniedMessageCaption}${this.captionAndMessageSeparator} ${this.accessDeniedMessageDetail}`);
         return responses;
-    };
-    Utilities.findHttpResponseMessage = function (messageToFind, data, seachInCaptionOnly, includeCaptionInResult) {
-        if (seachInCaptionOnly === void 0) { seachInCaptionOnly = true; }
-        if (includeCaptionInResult === void 0) { includeCaptionInResult = false; }
-        var searchString = messageToFind.toLowerCase();
-        var httpMessages = this.getHttpResponseMessage(data);
-        for (var _i = 0, httpMessages_1 = httpMessages; _i < httpMessages_1.length; _i++) {
-            var message = httpMessages_1[_i];
-            var fullMessage = Utilities_1.splitInTwo(message, this.captionAndMessageSeparator);
+    }
+    static findHttpResponseMessage(messageToFind, data, seachInCaptionOnly = true, includeCaptionInResult = false) {
+        let searchString = messageToFind.toLowerCase();
+        let httpMessages = this.getHttpResponseMessage(data);
+        for (let message of httpMessages) {
+            let fullMessage = Utilities_1.splitInTwo(message, this.captionAndMessageSeparator);
             if (fullMessage.firstPart && fullMessage.firstPart.toLowerCase().indexOf(searchString) != -1) {
                 return includeCaptionInResult ? message : fullMessage.secondPart || fullMessage.firstPart;
             }
         }
         if (!seachInCaptionOnly) {
-            for (var _a = 0, httpMessages_2 = httpMessages; _a < httpMessages_2.length; _a++) {
-                var message = httpMessages_2[_a];
+            for (let message of httpMessages) {
                 if (message.toLowerCase().indexOf(searchString) != -1) {
                     if (includeCaptionInResult) {
                         return message;
                     }
                     else {
-                        var fullMessage = Utilities_1.splitInTwo(message, this.captionAndMessageSeparator);
+                        let fullMessage = Utilities_1.splitInTwo(message, this.captionAndMessageSeparator);
                         return fullMessage.secondPart || fullMessage.firstPart;
                     }
                 }
             }
         }
         return null;
-    };
-    Utilities.checkNoNetwork = function (response) {
-        if (response instanceof http_1.Response) {
+    }
+    static checkNoNetwork(response) {
+        if (response instanceof Response) {
             return response.status == 0;
         }
         return false;
-    };
-    Utilities.checkAccessDenied = function (response) {
-        if (response instanceof http_1.Response) {
+    }
+    static checkAccessDenied(response) {
+        if (response instanceof Response) {
             return response.status == 403;
         }
         return false;
-    };
-    Utilities.checkNotFound = function (response) {
-        if (response instanceof http_1.Response) {
+    }
+    static checkNotFound(response) {
+        if (response instanceof Response) {
             return response.status == 404;
         }
         return false;
-    };
-    Utilities.checkIsLocalHost = function (url, base) {
+    }
+    static checkIsLocalHost(url, base) {
         if (url) {
-            var location_1 = new URL(url, base);
-            return location_1.hostname === "localhost" || location_1.hostname === "127.0.0.1";
+            let location = new URL(url, base);
+            return location.hostname === "localhost" || location.hostname === "127.0.0.1";
         }
         return false;
-    };
-    Utilities.splitInTwo = function (text, separator) {
-        var separatorIndex = text.indexOf(separator);
+    }
+    static splitInTwo(text, separator) {
+        let separatorIndex = text.indexOf(separator);
         if (separatorIndex == -1)
             return { firstPart: text, secondPart: null };
-        var part1 = text.substr(0, separatorIndex).trim();
-        var part2 = text.substr(separatorIndex + 1).trim();
+        let part1 = text.substr(0, separatorIndex).trim();
+        let part2 = text.substr(separatorIndex + 1).trim();
         return { firstPart: part1, secondPart: part2 };
-    };
-    Utilities.safeStringify = function (object) {
-        var result;
+    }
+    static safeStringify(object) {
+        let result;
         try {
             result = JSON.stringify(object);
             return result;
         }
         catch (error) {
         }
-        var simpleObject = {};
-        for (var prop in object) {
+        let simpleObject = {};
+        for (let prop in object) {
             if (!object.hasOwnProperty(prop)) {
                 continue;
             }
@@ -123,8 +115,8 @@ var Utilities = Utilities_1 = (function () {
         }
         result = "[***Sanitized Object***]: " + JSON.stringify(simpleObject);
         return result;
-    };
-    Utilities.JSonTryParse = function (value) {
+    }
+    static JSonTryParse(value) {
         try {
             return JSON.parse(value);
         }
@@ -133,29 +125,29 @@ var Utilities = Utilities_1 = (function () {
                 return void 0;
             return value;
         }
-    };
-    Utilities.TestIsUndefined = function (value) {
+    }
+    static TestIsUndefined(value) {
         return typeof value === 'undefined';
         //return value === undefined;
-    };
-    Utilities.TestIsString = function (value) {
+    }
+    static TestIsString(value) {
         return typeof value === 'string' || value instanceof String;
-    };
-    Utilities.capitalizeFirstLetter = function (text) {
+    }
+    static capitalizeFirstLetter(text) {
         if (text)
             return text.charAt(0).toUpperCase() + text.slice(1);
         else
             return text;
-    };
-    Utilities.toTitleCase = function (text) {
-        return text.replace(/\w\S*/g, function (subString) {
+    }
+    static toTitleCase(text) {
+        return text.replace(/\w\S*/g, (subString) => {
             return subString.charAt(0).toUpperCase() + subString.substr(1).toLowerCase();
         });
-    };
-    Utilities.toLowerCase = function (items) {
+    }
+    static toLowerCase(items) {
         if (items instanceof Array) {
-            var loweredRoles = [];
-            for (var i = 0; i < items.length; i++) {
+            let loweredRoles = [];
+            for (let i = 0; i < items.length; i++) {
                 loweredRoles[i] = items[i].toLowerCase();
             }
             return loweredRoles;
@@ -163,27 +155,27 @@ var Utilities = Utilities_1 = (function () {
         else if (typeof items === 'string' || items instanceof String) {
             return items.toLowerCase();
         }
-    };
-    Utilities.uniqueId = function () {
+    }
+    static uniqueId() {
         return this.randomNumber(1000000, 9000000).toString();
-    };
-    Utilities.randomNumber = function (min, max) {
+    }
+    static randomNumber(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
-    };
-    Utilities.baseUrl = function () {
+    }
+    static baseUrl() {
         if (window.location.origin)
             return window.location.origin;
         return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
-    };
-    Utilities.printDateOnly = function (date) {
+    }
+    static printDateOnly(date) {
         date = new Date(date);
-        var dayNames = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-        var monthNames = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-        var dayOfWeek = date.getDay();
-        var dayOfMonth = date.getDate();
-        var sup = "";
-        var month = date.getMonth();
-        var year = date.getFullYear();
+        let dayNames = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+        let monthNames = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+        let dayOfWeek = date.getDay();
+        let dayOfMonth = date.getDate();
+        let sup = "";
+        let month = date.getMonth();
+        let year = date.getFullYear();
         if (dayOfMonth == 1 || dayOfMonth == 21 || dayOfMonth == 31) {
             sup = "st";
         }
@@ -196,14 +188,14 @@ var Utilities = Utilities_1 = (function () {
         else {
             sup = "th";
         }
-        var dateString = dayNames[dayOfWeek] + ", " + dayOfMonth + sup + " " + monthNames[month] + " " + year;
+        let dateString = dayNames[dayOfWeek] + ", " + dayOfMonth + sup + " " + monthNames[month] + " " + year;
         return dateString;
-    };
-    Utilities.printTimeOnly = function (date) {
+    }
+    static printTimeOnly(date) {
         date = new Date(date);
-        var period = "";
-        var minute = date.getMinutes().toString();
-        var hour = date.getHours();
+        let period = "";
+        let minute = date.getMinutes().toString();
+        let hour = date.getHours();
         period = hour < 12 ? "AM" : "PM";
         if (hour == 0) {
             hour = 12;
@@ -214,13 +206,13 @@ var Utilities = Utilities_1 = (function () {
         if (minute.length == 1) {
             minute = "0" + minute;
         }
-        var timeString = hour + ":" + minute + " " + period;
+        let timeString = hour + ":" + minute + " " + period;
         return timeString;
-    };
-    Utilities.printDate = function (date) {
+    }
+    static printDate(date) {
         return Utilities_1.printDateOnly(date) + " at " + Utilities_1.printTimeOnly(date);
-    };
-    Utilities.parseDate = function (date) {
+    }
+    static parseDate(date) {
         if (date) {
             if (date instanceof Date) {
                 return date;
@@ -234,49 +226,49 @@ var Utilities = Utilities_1 = (function () {
                 return new Date(date);
             }
         }
-    };
-    Utilities.printDuration = function (start, end) {
+    }
+    static printDuration(start, end) {
         start = new Date(start);
         end = new Date(end);
         // get total seconds between the times
-        var delta = Math.abs(start.valueOf() - end.valueOf()) / 1000;
+        let delta = Math.abs(start.valueOf() - end.valueOf()) / 1000;
         // calculate (and subtract) whole days
-        var days = Math.floor(delta / 86400);
+        let days = Math.floor(delta / 86400);
         delta -= days * 86400;
         // calculate (and subtract) whole hours
-        var hours = Math.floor(delta / 3600) % 24;
+        let hours = Math.floor(delta / 3600) % 24;
         delta -= hours * 3600;
         // calculate (and subtract) whole minutes
-        var minutes = Math.floor(delta / 60) % 60;
+        let minutes = Math.floor(delta / 60) % 60;
         delta -= minutes * 60;
         // what's left is seconds
-        var seconds = delta % 60; // in theory the modulus is not required
-        var printedDays = "";
+        let seconds = delta % 60; // in theory the modulus is not required
+        let printedDays = "";
         if (days)
-            printedDays = days + " days";
+            printedDays = `${days} days`;
         if (hours)
-            printedDays += printedDays ? ", " + hours + " hours" : hours + " hours";
+            printedDays += printedDays ? `, ${hours} hours` : `${hours} hours`;
         if (minutes)
-            printedDays += printedDays ? ", " + minutes + " minutes" : minutes + " minutes";
+            printedDays += printedDays ? `, ${minutes} minutes` : `${minutes} minutes`;
         if (seconds)
-            printedDays += printedDays ? " and " + seconds + " seconds" : seconds + " seconds";
+            printedDays += printedDays ? ` and ${seconds} seconds` : `${seconds} seconds`;
         if (!printedDays)
             printedDays = "0";
         return printedDays;
-    };
-    Utilities.getAge = function (birthDate, otherDate) {
+    }
+    static getAge(birthDate, otherDate) {
         birthDate = new Date(birthDate);
         otherDate = new Date(otherDate);
-        var years = (otherDate.getFullYear() - birthDate.getFullYear());
+        let years = (otherDate.getFullYear() - birthDate.getFullYear());
         if (otherDate.getMonth() < birthDate.getMonth() ||
             otherDate.getMonth() == birthDate.getMonth() && otherDate.getDate() < birthDate.getDate()) {
             years--;
         }
         return years;
-    };
-    Utilities.removeNulls = function (obj) {
-        var isArray = obj instanceof Array;
-        for (var k in obj) {
+    }
+    static removeNulls(obj) {
+        let isArray = obj instanceof Array;
+        for (let k in obj) {
             if (obj[k] === null) {
                 isArray ? obj.splice(k, 1) : delete obj[k];
             }
@@ -288,8 +280,8 @@ var Utilities = Utilities_1 = (function () {
             }
         }
         return obj;
-    };
-    Utilities.debounce = function (func, wait, immediate) {
+    }
+    static debounce(func, wait, immediate) {
         var timeout;
         return function () {
             var context = this;
@@ -305,18 +297,17 @@ var Utilities = Utilities_1 = (function () {
             if (callNow)
                 func.apply(context, args_);
         };
-    };
+    }
     ;
-    return Utilities;
-}());
+};
 Utilities.captionAndMessageSeparator = ":";
 Utilities.noNetworkMessageCaption = "No Network";
 Utilities.noNetworkMessageDetail = "The server cannot be reached";
 Utilities.accessDeniedMessageCaption = "Access Denied!";
 Utilities.accessDeniedMessageDetail = "";
 Utilities = Utilities_1 = __decorate([
-    core_1.Injectable()
+    Injectable()
 ], Utilities);
-exports.Utilities = Utilities;
+export { Utilities };
 var Utilities_1;
 //# sourceMappingURL=utilities.js.map

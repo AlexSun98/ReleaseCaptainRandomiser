@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,89 +7,69 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var $ = require("jquery");
-require("bootstrap-select/dist/js/bootstrap-select");
-var BootstrapSelectDirective = (function () {
-    function BootstrapSelectDirective(el) {
+import { Directive, ElementRef, Input } from '@angular/core';
+import * as $ from 'jquery';
+import 'bootstrap-select/dist/js/bootstrap-select';
+let BootstrapSelectDirective = class BootstrapSelectDirective {
+    constructor(el) {
         this.el = el;
     }
-    Object.defineProperty(BootstrapSelectDirective.prototype, "ngModel", {
-        set: function (values) {
-            var _this = this;
-            setTimeout(function () { return _this.selected = values; });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    BootstrapSelectDirective.prototype.ngOnInit = function () {
-        var _this = this;
+    set ngModel(values) {
+        setTimeout(() => this.selected = values);
+    }
+    ngOnInit() {
         $(this.el.nativeElement).selectpicker();
         if (this.requiredAttribute)
             $(this.el.nativeElement).selectpicker('setStyle', 'required', 'add');
-        setTimeout(function () {
-            _this.refresh();
-            _this.doValidation();
+        setTimeout(() => {
+            this.refresh();
+            this.doValidation();
         });
-    };
-    BootstrapSelectDirective.prototype.ngOnDestroy = function () {
+    }
+    ngOnDestroy() {
         $(this.el.nativeElement).selectpicker('destroy');
-    };
-    BootstrapSelectDirective.prototype.doValidation = function () {
+    }
+    doValidation() {
         if (this.requiredAttribute) {
             $(this.el.nativeElement).selectpicker('setStyle', !this.valid ? 'ng-valid' : 'ng-invalid', 'remove');
             $(this.el.nativeElement).selectpicker('setStyle', this.valid ? 'ng-valid' : 'ng-invalid', 'add');
         }
-    };
-    Object.defineProperty(BootstrapSelectDirective.prototype, "requiredAttribute", {
-        get: function () {
-            return this.required === "" || this.required == "true";
-        },
-        enumerable: true,
-        configurable: true
-    });
-    BootstrapSelectDirective.prototype.refresh = function () {
+    }
+    get requiredAttribute() {
+        return this.required === "" || this.required == "true";
+    }
+    refresh() {
         $(this.el.nativeElement).selectpicker('refresh');
-    };
-    BootstrapSelectDirective.prototype.render = function () {
+    }
+    render() {
         $(this.el.nativeElement).selectpicker('render');
-    };
-    Object.defineProperty(BootstrapSelectDirective.prototype, "valid", {
-        get: function () {
-            return this.requiredAttribute ? this.selected && this.selected.length > 0 : true;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(BootstrapSelectDirective.prototype, "selected", {
-        get: function () {
-            return $(this.el.nativeElement).selectpicker('val');
-        },
-        set: function (values) {
-            $(this.el.nativeElement).selectpicker('val', values);
-            this.doValidation();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return BootstrapSelectDirective;
-}());
+    }
+    get valid() {
+        return this.requiredAttribute ? this.selected && this.selected.length > 0 : true;
+    }
+    set selected(values) {
+        $(this.el.nativeElement).selectpicker('val', values);
+        this.doValidation();
+    }
+    get selected() {
+        return $(this.el.nativeElement).selectpicker('val');
+    }
+};
 __decorate([
-    core_1.Input(),
+    Input(),
     __metadata("design:type", String)
 ], BootstrapSelectDirective.prototype, "required", void 0);
 __decorate([
-    core_1.Input(),
+    Input(),
     __metadata("design:type", Object),
     __metadata("design:paramtypes", [Object])
 ], BootstrapSelectDirective.prototype, "ngModel", null);
 BootstrapSelectDirective = __decorate([
-    core_1.Directive({
+    Directive({
         selector: '[bootstrapSelect]',
         exportAs: 'bootstrap-select'
     }),
-    __metadata("design:paramtypes", [core_1.ElementRef])
+    __metadata("design:paramtypes", [ElementRef])
 ], BootstrapSelectDirective);
-exports.BootstrapSelectDirective = BootstrapSelectDirective;
+export { BootstrapSelectDirective };
 //# sourceMappingURL=bootstrap-select.directive.js.map

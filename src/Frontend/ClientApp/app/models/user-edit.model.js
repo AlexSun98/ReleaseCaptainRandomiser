@@ -1,26 +1,10 @@
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var user_model_1 = require("./user.model");
-var UserEdit = (function (_super) {
-    __extends(UserEdit, _super);
-    function UserEdit(currentPassword, newPassword, confirmPassword) {
-        var _this = _super.call(this) || this;
-        _this.currentPassword = currentPassword;
-        _this.newPassword = newPassword;
-        _this.confirmPassword = confirmPassword;
-        return _this;
+import { User } from './user.model';
+export class UserEdit extends User {
+    constructor(currentPassword, newPassword, confirmPassword) {
+        super();
+        this.currentPassword = currentPassword;
+        this.newPassword = newPassword;
+        this.confirmPassword = confirmPassword;
     }
-    return UserEdit;
-}(user_model_1.User));
-exports.UserEdit = UserEdit;
+}
 //# sourceMappingURL=user-edit.model.js.map

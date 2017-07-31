@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,233 +7,182 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/map");
-var local_store_manager_service_1 = require("./local-store-manager.service");
-var endpoint_factory_service_1 = require("./endpoint-factory.service");
-var configuration_service_1 = require("./configuration.service");
-var db_Keys_1 = require("./db-Keys");
-var jwt_helper_1 = require("./jwt-helper");
-var utilities_1 = require("./utilities");
-var user_model_1 = require("../models/user.model");
-var AuthService = (function () {
-    function AuthService(router, configurations, endpointFactory, localStorage) {
+import { Injectable } from '@angular/core';
+import { Router } from "@angular/router";
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/map';
+import { LocalStoreManager } from './local-store-manager.service';
+import { EndpointFactory } from './endpoint-factory.service';
+import { ConfigurationService } from './configuration.service';
+import { DBkeys } from './db-Keys';
+import { JwtHelper } from './jwt-helper';
+import { Utilities } from './utilities';
+import { User } from '../models/user.model';
+let AuthService = class AuthService {
+    constructor(router, configurations, endpointFactory, localStorage) {
         this.router = router;
         this.configurations = configurations;
         this.endpointFactory = endpointFactory;
         this.localStorage = localStorage;
         this.previousIsLoggedInCheck = false;
-        this._loginStatus = new Subject_1.Subject();
+        this._loginStatus = new Subject();
         this.initializeLoginStatus();
     }
-    Object.defineProperty(AuthService.prototype, "loginUrl", {
-        get: function () { return this.configurations.loginUrl; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AuthService.prototype, "homeUrl", {
-        get: function () { return this.configurations.homeUrl; },
-        enumerable: true,
-        configurable: true
-    });
-    AuthService.prototype.initializeLoginStatus = function () {
-        var _this = this;
-        this.localStorage.getInitEvent().subscribe(function () {
-            _this.reevaluateLoginStatus();
+    get loginUrl() { return this.configurations.loginUrl; }
+    get homeUrl() { return this.configurations.homeUrl; }
+    initializeLoginStatus() {
+        this.localStorage.getInitEvent().subscribe(() => {
+            this.reevaluateLoginStatus();
         });
-    };
-    AuthService.prototype.gotoPage = function (page, preserveParams) {
-        if (preserveParams === void 0) { preserveParams = true; }
-        var navigationExtras = {
+    }
+    gotoPage(page, preserveParams = true) {
+        let navigationExtras = {
             preserveQueryParams: preserveParams, preserveFragment: preserveParams
         };
         this.router.navigate([page], navigationExtras);
-    };
-    AuthService.prototype.redirectLoginUser = function () {
-        var redirect = this.loginRedirectUrl && this.loginRedirectUrl != configuration_service_1.ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
+    }
+    redirectLoginUser() {
+        let redirect = this.loginRedirectUrl && this.loginRedirectUrl != ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
         this.loginRedirectUrl = null;
-        var urlAndFragment = utilities_1.Utilities.splitInTwo(redirect, '#');
-        var navigationExtras = {
+        let urlAndFragment = Utilities.splitInTwo(redirect, '#');
+        let navigationExtras = {
             fragment: urlAndFragment.secondPart,
             preserveQueryParams: true
         };
         this.router.navigate([urlAndFragment.firstPart], navigationExtras);
-    };
-    AuthService.prototype.redirectLogoutUser = function () {
-        var redirect = this.logoutRedirectUrl ? this.logoutRedirectUrl : this.loginUrl;
+    }
+    redirectLogoutUser() {
+        let redirect = this.logoutRedirectUrl ? this.logoutRedirectUrl : this.loginUrl;
         this.logoutRedirectUrl = null;
         this.router.navigate([redirect]);
-    };
-    AuthService.prototype.redirectForLogin = function () {
+    }
+    redirectForLogin() {
         this.loginRedirectUrl = this.router.url;
         this.router.navigate([this.loginUrl]);
-    };
-    AuthService.prototype.reLogin = function () {
-        this.localStorage.deleteData(db_Keys_1.DBkeys.TOKEN_EXPIRES_IN);
+    }
+    reLogin() {
+        this.localStorage.deleteData(DBkeys.TOKEN_EXPIRES_IN);
         if (this.reLoginDelegate) {
             this.reLoginDelegate();
         }
         else {
             this.redirectForLogin();
         }
-    };
-    AuthService.prototype.refreshLogin = function () {
-        var _this = this;
+    }
+    refreshLogin() {
         return this.endpointFactory.getRefreshLoginEndpoint()
-            .map(function (response) { return _this.processLoginResponse(response, _this.rememberMe); });
-    };
-    AuthService.prototype.login = function (userName, password, rememberMe) {
-        var _this = this;
+            .map((response) => this.processLoginResponse(response, this.rememberMe));
+    }
+    login(userName, password, rememberMe) {
         if (this.isLoggedIn)
             this.logout();
         return this.endpointFactory.getLoginEndpoint(userName, password)
-            .map(function (response) { return _this.processLoginResponse(response, rememberMe); });
-    };
-    AuthService.prototype.processLoginResponse = function (response, rememberMe) {
-        var response_token = response.json();
-        var accessToken = response_token.access_token;
+            .map((response) => this.processLoginResponse(response, rememberMe));
+    }
+    processLoginResponse(response, rememberMe) {
+        let response_token = response.json();
+        let accessToken = response_token.access_token;
         if (accessToken == null)
             throw new Error("Received accessToken was empty");
-        var idToken = response_token.id_token;
-        var refreshToken = response_token.refresh_token;
-        var expiresIn = response_token.expires_in;
-        var tokenExpiryDate = new Date();
+        let idToken = response_token.id_token;
+        let refreshToken = response_token.refresh_token;
+        let expiresIn = response_token.expires_in;
+        let tokenExpiryDate = new Date();
         tokenExpiryDate.setSeconds(tokenExpiryDate.getSeconds() + expiresIn);
-        var accessTokenExpiry = tokenExpiryDate;
-        var jwtHelper = new jwt_helper_1.JwtHelper();
-        var decodedIdToken = jwtHelper.decodeToken(response_token.id_token);
-        var permissions = Array.isArray(decodedIdToken.permission) ? decodedIdToken.permission : [decodedIdToken.permission];
+        let accessTokenExpiry = tokenExpiryDate;
+        let jwtHelper = new JwtHelper();
+        let decodedIdToken = jwtHelper.decodeToken(response_token.id_token);
+        let permissions = Array.isArray(decodedIdToken.permission) ? decodedIdToken.permission : [decodedIdToken.permission];
         if (!this.isLoggedIn)
             this.configurations.import(decodedIdToken.configuration);
-        var user = new user_model_1.User(decodedIdToken.sub, decodedIdToken.name, decodedIdToken.fullname, decodedIdToken.email, decodedIdToken.jobTitle, decodedIdToken.phone, Array.isArray(decodedIdToken.role) ? decodedIdToken.role : [decodedIdToken.role]);
+        let user = new User(decodedIdToken.sub, decodedIdToken.name, decodedIdToken.fullname, decodedIdToken.email, decodedIdToken.jobTitle, decodedIdToken.phone, Array.isArray(decodedIdToken.role) ? decodedIdToken.role : [decodedIdToken.role]);
         user.isEnabled = true;
         this.saveUserDetails(user, permissions, accessToken, idToken, refreshToken, accessTokenExpiry, rememberMe);
         this.reevaluateLoginStatus(user);
         return user;
-    };
-    AuthService.prototype.saveUserDetails = function (user, permissions, accessToken, idToken, refreshToken, expiresIn, rememberMe) {
+    }
+    saveUserDetails(user, permissions, accessToken, idToken, refreshToken, expiresIn, rememberMe) {
         if (rememberMe) {
-            this.localStorage.savePermanentData(accessToken, db_Keys_1.DBkeys.ACCESS_TOKEN);
-            this.localStorage.savePermanentData(idToken, db_Keys_1.DBkeys.ID_TOKEN);
-            this.localStorage.savePermanentData(refreshToken, db_Keys_1.DBkeys.REFRESH_TOKEN);
-            this.localStorage.savePermanentData(expiresIn, db_Keys_1.DBkeys.TOKEN_EXPIRES_IN);
-            this.localStorage.savePermanentData(permissions, db_Keys_1.DBkeys.USER_PERMISSIONS);
-            this.localStorage.savePermanentData(user, db_Keys_1.DBkeys.CURRENT_USER);
+            this.localStorage.savePermanentData(accessToken, DBkeys.ACCESS_TOKEN);
+            this.localStorage.savePermanentData(idToken, DBkeys.ID_TOKEN);
+            this.localStorage.savePermanentData(refreshToken, DBkeys.REFRESH_TOKEN);
+            this.localStorage.savePermanentData(expiresIn, DBkeys.TOKEN_EXPIRES_IN);
+            this.localStorage.savePermanentData(permissions, DBkeys.USER_PERMISSIONS);
+            this.localStorage.savePermanentData(user, DBkeys.CURRENT_USER);
         }
         else {
-            this.localStorage.saveSyncedSessionData(accessToken, db_Keys_1.DBkeys.ACCESS_TOKEN);
-            this.localStorage.saveSyncedSessionData(idToken, db_Keys_1.DBkeys.ID_TOKEN);
-            this.localStorage.saveSyncedSessionData(refreshToken, db_Keys_1.DBkeys.REFRESH_TOKEN);
-            this.localStorage.saveSyncedSessionData(expiresIn, db_Keys_1.DBkeys.TOKEN_EXPIRES_IN);
-            this.localStorage.saveSyncedSessionData(permissions, db_Keys_1.DBkeys.USER_PERMISSIONS);
-            this.localStorage.saveSyncedSessionData(user, db_Keys_1.DBkeys.CURRENT_USER);
+            this.localStorage.saveSyncedSessionData(accessToken, DBkeys.ACCESS_TOKEN);
+            this.localStorage.saveSyncedSessionData(idToken, DBkeys.ID_TOKEN);
+            this.localStorage.saveSyncedSessionData(refreshToken, DBkeys.REFRESH_TOKEN);
+            this.localStorage.saveSyncedSessionData(expiresIn, DBkeys.TOKEN_EXPIRES_IN);
+            this.localStorage.saveSyncedSessionData(permissions, DBkeys.USER_PERMISSIONS);
+            this.localStorage.saveSyncedSessionData(user, DBkeys.CURRENT_USER);
         }
-        this.localStorage.savePermanentData(rememberMe, db_Keys_1.DBkeys.REMEMBER_ME);
-    };
-    AuthService.prototype.logout = function () {
-        this.localStorage.deleteData(db_Keys_1.DBkeys.ACCESS_TOKEN);
-        this.localStorage.deleteData(db_Keys_1.DBkeys.ID_TOKEN);
-        this.localStorage.deleteData(db_Keys_1.DBkeys.REFRESH_TOKEN);
-        this.localStorage.deleteData(db_Keys_1.DBkeys.TOKEN_EXPIRES_IN);
-        this.localStorage.deleteData(db_Keys_1.DBkeys.USER_PERMISSIONS);
-        this.localStorage.deleteData(db_Keys_1.DBkeys.CURRENT_USER);
+        this.localStorage.savePermanentData(rememberMe, DBkeys.REMEMBER_ME);
+    }
+    logout() {
+        this.localStorage.deleteData(DBkeys.ACCESS_TOKEN);
+        this.localStorage.deleteData(DBkeys.ID_TOKEN);
+        this.localStorage.deleteData(DBkeys.REFRESH_TOKEN);
+        this.localStorage.deleteData(DBkeys.TOKEN_EXPIRES_IN);
+        this.localStorage.deleteData(DBkeys.USER_PERMISSIONS);
+        this.localStorage.deleteData(DBkeys.CURRENT_USER);
         this.configurations.clearLocalChanges();
         this.reevaluateLoginStatus();
-    };
-    AuthService.prototype.reevaluateLoginStatus = function (currentUser) {
-        var _this = this;
-        var user = currentUser || this.localStorage.getDataObject(db_Keys_1.DBkeys.CURRENT_USER);
-        var isLoggedIn = user != null;
+    }
+    reevaluateLoginStatus(currentUser) {
+        let user = currentUser || this.localStorage.getDataObject(DBkeys.CURRENT_USER);
+        let isLoggedIn = user != null;
         if (this.previousIsLoggedInCheck != isLoggedIn) {
-            setTimeout(function () {
-                _this._loginStatus.next(isLoggedIn);
+            setTimeout(() => {
+                this._loginStatus.next(isLoggedIn);
             });
         }
         this.previousIsLoggedInCheck = isLoggedIn;
-    };
-    AuthService.prototype.getLoginStatusEvent = function () {
+    }
+    getLoginStatusEvent() {
         return this._loginStatus.asObservable();
-    };
-    Object.defineProperty(AuthService.prototype, "currentUser", {
-        get: function () {
-            var user = this.localStorage.getDataObject(db_Keys_1.DBkeys.CURRENT_USER);
-            this.reevaluateLoginStatus(user);
-            return user;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AuthService.prototype, "userPermissions", {
-        get: function () {
-            return this.localStorage.getDataObject(db_Keys_1.DBkeys.USER_PERMISSIONS) || [];
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AuthService.prototype, "accessToken", {
-        get: function () {
-            this.reevaluateLoginStatus();
-            return this.localStorage.getData(db_Keys_1.DBkeys.ACCESS_TOKEN);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AuthService.prototype, "accessTokenExpiryDate", {
-        get: function () {
-            this.reevaluateLoginStatus();
-            return this.localStorage.getDataObject(db_Keys_1.DBkeys.TOKEN_EXPIRES_IN, true);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AuthService.prototype, "isSessionExpired", {
-        get: function () {
-            if (this.accessTokenExpiryDate == null) {
-                return true;
-            }
-            return !(this.accessTokenExpiryDate.valueOf() > new Date().valueOf());
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AuthService.prototype, "idToken", {
-        get: function () {
-            this.reevaluateLoginStatus();
-            return this.localStorage.getData(db_Keys_1.DBkeys.ID_TOKEN);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AuthService.prototype, "refreshToken", {
-        get: function () {
-            this.reevaluateLoginStatus();
-            return this.localStorage.getData(db_Keys_1.DBkeys.REFRESH_TOKEN);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AuthService.prototype, "isLoggedIn", {
-        get: function () {
-            return this.currentUser != null;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AuthService.prototype, "rememberMe", {
-        get: function () {
-            return this.localStorage.getDataObject(db_Keys_1.DBkeys.REMEMBER_ME) == true;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return AuthService;
-}());
+    }
+    get currentUser() {
+        let user = this.localStorage.getDataObject(DBkeys.CURRENT_USER);
+        this.reevaluateLoginStatus(user);
+        return user;
+    }
+    get userPermissions() {
+        return this.localStorage.getDataObject(DBkeys.USER_PERMISSIONS) || [];
+    }
+    get accessToken() {
+        this.reevaluateLoginStatus();
+        return this.localStorage.getData(DBkeys.ACCESS_TOKEN);
+    }
+    get accessTokenExpiryDate() {
+        this.reevaluateLoginStatus();
+        return this.localStorage.getDataObject(DBkeys.TOKEN_EXPIRES_IN, true);
+    }
+    get isSessionExpired() {
+        if (this.accessTokenExpiryDate == null) {
+            return true;
+        }
+        return !(this.accessTokenExpiryDate.valueOf() > new Date().valueOf());
+    }
+    get idToken() {
+        this.reevaluateLoginStatus();
+        return this.localStorage.getData(DBkeys.ID_TOKEN);
+    }
+    get refreshToken() {
+        this.reevaluateLoginStatus();
+        return this.localStorage.getData(DBkeys.REFRESH_TOKEN);
+    }
+    get isLoggedIn() {
+        return this.currentUser != null;
+    }
+    get rememberMe() {
+        return this.localStorage.getDataObject(DBkeys.REMEMBER_ME) == true;
+    }
+};
 AuthService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router, configuration_service_1.ConfigurationService, endpoint_factory_service_1.EndpointFactory, local_store_manager_service_1.LocalStoreManager])
+    Injectable(),
+    __metadata("design:paramtypes", [Router, ConfigurationService, EndpointFactory, LocalStoreManager])
 ], AuthService);
-exports.AuthService = AuthService;
+export { AuthService };
 //# sourceMappingURL=auth.service.js.map

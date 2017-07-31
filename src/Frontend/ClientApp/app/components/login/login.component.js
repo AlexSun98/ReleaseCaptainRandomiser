@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,121 +7,115 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var alert_service_1 = require("../../services/alert.service");
-var auth_service_1 = require("../../services/auth.service");
-var configuration_service_1 = require("../../services/configuration.service");
-var utilities_1 = require("../../services/utilities");
-var user_login_model_1 = require("../../models/user-login.model");
-var LoginComponent = (function () {
-    function LoginComponent(alertService, authService, configurations) {
+import { Component, Input } from "@angular/core";
+import { AlertService, MessageSeverity, DialogType } from '../../services/alert.service';
+import { AuthService } from "../../services/auth.service";
+import { ConfigurationService } from '../../services/configuration.service';
+import { Utilities } from '../../services/utilities';
+import { UserLogin } from '../../models/user-login.model';
+let LoginComponent = class LoginComponent {
+    constructor(alertService, authService, configurations) {
         this.alertService = alertService;
         this.authService = authService;
         this.configurations = configurations;
-        this.userLogin = new user_login_model_1.UserLogin();
+        this.userLogin = new UserLogin();
         this.isLoading = false;
         this.formResetToggle = true;
         this.isModal = false;
     }
-    LoginComponent.prototype.ngOnInit = function () {
-        var _this = this;
+    ngOnInit() {
         this.userLogin.rememberMe = this.authService.rememberMe;
         if (this.getShouldRedirect()) {
             this.authService.redirectLoginUser();
         }
         else {
-            this.loginStatusSubscription = this.authService.getLoginStatusEvent().subscribe(function (isLoggedIn) {
-                if (_this.getShouldRedirect()) {
-                    _this.authService.redirectLoginUser();
+            this.loginStatusSubscription = this.authService.getLoginStatusEvent().subscribe(isLoggedIn => {
+                if (this.getShouldRedirect()) {
+                    this.authService.redirectLoginUser();
                 }
             });
         }
-    };
-    LoginComponent.prototype.ngOnDestroy = function () {
+    }
+    ngOnDestroy() {
         if (this.loginStatusSubscription)
             this.loginStatusSubscription.unsubscribe();
-    };
-    LoginComponent.prototype.getShouldRedirect = function () {
+    }
+    getShouldRedirect() {
         return !this.isModal && this.authService.isLoggedIn && !this.authService.isSessionExpired;
-    };
-    LoginComponent.prototype.showErrorAlert = function (caption, message) {
-        this.alertService.showMessage(caption, message, alert_service_1.MessageSeverity.error);
-    };
-    LoginComponent.prototype.closeModal = function () {
+    }
+    showErrorAlert(caption, message) {
+        this.alertService.showMessage(caption, message, MessageSeverity.error);
+    }
+    closeModal() {
         if (this.modalClosedCallback) {
             this.modalClosedCallback();
         }
-    };
-    LoginComponent.prototype.login = function () {
-        var _this = this;
+    }
+    login() {
         this.isLoading = true;
         this.alertService.startLoadingMessage("", "Attempting login...");
         this.authService.login(this.userLogin.email, this.userLogin.password, this.userLogin.rememberMe)
-            .subscribe(function (user) {
-            setTimeout(function () {
-                _this.alertService.stopLoadingMessage();
-                _this.isLoading = false;
-                _this.reset();
-                if (!_this.isModal) {
-                    _this.alertService.showMessage("Login", "Welcome " + user.userName + "!", alert_service_1.MessageSeverity.success);
+            .subscribe(user => {
+            setTimeout(() => {
+                this.alertService.stopLoadingMessage();
+                this.isLoading = false;
+                this.reset();
+                if (!this.isModal) {
+                    this.alertService.showMessage("Login", `Welcome ${user.userName}!`, MessageSeverity.success);
                 }
                 else {
-                    _this.alertService.showMessage("Login", "Session for " + user.userName + " restored!", alert_service_1.MessageSeverity.success);
-                    setTimeout(function () {
-                        _this.alertService.showStickyMessage("Session Restored", "Please try your last operation again", alert_service_1.MessageSeverity.default);
+                    this.alertService.showMessage("Login", `Session for ${user.userName} restored!`, MessageSeverity.success);
+                    setTimeout(() => {
+                        this.alertService.showStickyMessage("Session Restored", "Please try your last operation again", MessageSeverity.default);
                     }, 500);
-                    _this.closeModal();
+                    this.closeModal();
                 }
             }, 500);
-        }, function (error) {
-            _this.alertService.stopLoadingMessage();
-            if (utilities_1.Utilities.checkNoNetwork(error)) {
-                _this.alertService.showStickyMessage(utilities_1.Utilities.noNetworkMessageCaption, utilities_1.Utilities.noNetworkMessageDetail, alert_service_1.MessageSeverity.error, error);
-                _this.offerAlternateHost();
+        }, error => {
+            this.alertService.stopLoadingMessage();
+            if (Utilities.checkNoNetwork(error)) {
+                this.alertService.showStickyMessage(Utilities.noNetworkMessageCaption, Utilities.noNetworkMessageDetail, MessageSeverity.error, error);
+                this.offerAlternateHost();
             }
             else {
-                var errorMessage = utilities_1.Utilities.findHttpResponseMessage("error_description", error);
+                let errorMessage = Utilities.findHttpResponseMessage("error_description", error);
                 if (errorMessage)
-                    _this.alertService.showStickyMessage("Unable to login", errorMessage, alert_service_1.MessageSeverity.error, error);
+                    this.alertService.showStickyMessage("Unable to login", errorMessage, MessageSeverity.error, error);
                 else
-                    _this.alertService.showStickyMessage("Unable to login", "An error occured whilst logging in, please try again later.\nError: " + error.statusText || error.status, alert_service_1.MessageSeverity.error, error);
+                    this.alertService.showStickyMessage("Unable to login", "An error occured whilst logging in, please try again later.\nError: " + error.statusText || error.status, MessageSeverity.error, error);
             }
-            setTimeout(function () {
-                _this.isLoading = false;
+            setTimeout(() => {
+                this.isLoading = false;
             }, 500);
         });
-    };
-    LoginComponent.prototype.offerAlternateHost = function () {
-        var _this = this;
-        if (utilities_1.Utilities.checkIsLocalHost(location.origin) && utilities_1.Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
+    }
+    offerAlternateHost() {
+        if (Utilities.checkIsLocalHost(location.origin) && Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
             this.alertService.showDialog("Dear Developer!\nIt appears your backend Web API service is not running...\n" +
-                "Would you want to temporarily switch to the online Demo API below?(Or specify another)", alert_service_1.DialogType.prompt, function (value) {
-                _this.configurations.baseUrl = value;
-                _this.alertService.showStickyMessage("API Changed!", "The target Web API has been changed to: " + value, alert_service_1.MessageSeverity.warn);
+                "Would you want to temporarily switch to the online Demo API below?(Or specify another)", DialogType.prompt, (value) => {
+                this.configurations.baseUrl = value;
+                this.alertService.showStickyMessage("API Changed!", "The target Web API has been changed to: " + value, MessageSeverity.warn);
             }, null, null, null, this.configurations.fallbackBaseUrl);
         }
-    };
-    LoginComponent.prototype.reset = function () {
-        var _this = this;
+    }
+    reset() {
         this.formResetToggle = false;
-        setTimeout(function () {
-            _this.formResetToggle = true;
+        setTimeout(() => {
+            this.formResetToggle = true;
         });
-    };
-    return LoginComponent;
-}());
+    }
+};
 __decorate([
-    core_1.Input(),
+    Input(),
     __metadata("design:type", Object)
 ], LoginComponent.prototype, "isModal", void 0);
 LoginComponent = __decorate([
-    core_1.Component({
+    Component({
         selector: "app-login",
         templateUrl: './login.component.html',
         styleUrls: ['./login.component.css']
     }),
-    __metadata("design:paramtypes", [alert_service_1.AlertService, auth_service_1.AuthService, configuration_service_1.ConfigurationService])
+    __metadata("design:paramtypes", [AlertService, AuthService, ConfigurationService])
 ], LoginComponent);
-exports.LoginComponent = LoginComponent;
+export { LoginComponent };
 //# sourceMappingURL=login.component.js.map

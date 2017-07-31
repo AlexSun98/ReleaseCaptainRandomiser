@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,119 +7,103 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/fromEvent");
-var $ = require("jquery");
-require("bootstrap-datepicker/dist/js/bootstrap-datepicker");
-var BootstrapDatepickerDirective = (function () {
-    function BootstrapDatepickerDirective(el) {
-        var _this = this;
+import { Directive, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
+import * as $ from 'jquery';
+import 'bootstrap-datepicker/dist/js/bootstrap-datepicker';
+let BootstrapDatepickerDirective = class BootstrapDatepickerDirective {
+    constructor(el) {
         this.el = el;
         this._isShown = false;
         this.options = {};
-        this.ngModelChange = new core_1.EventEmitter();
-        this.changedSubscription = Observable_1.Observable.fromEvent($(this.el.nativeElement), 'change').subscribe(function (e) { return setTimeout(function () { return _this.ngModelChange.emit(e.target.value); }); });
-        this.shownSubscription = Observable_1.Observable.fromEvent($(this.el.nativeElement), 'show').subscribe(function (e) { return _this._isShown = true; });
-        this.hiddenSubscription = Observable_1.Observable.fromEvent($(this.el.nativeElement), 'hide').subscribe(function (e) { return _this._isShown = false; });
+        this.ngModelChange = new EventEmitter();
+        this.changedSubscription = Observable.fromEvent($(this.el.nativeElement), 'change').subscribe((e) => setTimeout(() => this.ngModelChange.emit(e.target.value)));
+        this.shownSubscription = Observable.fromEvent($(this.el.nativeElement), 'show').subscribe((e) => this._isShown = true);
+        this.hiddenSubscription = Observable.fromEvent($(this.el.nativeElement), 'hide').subscribe((e) => this._isShown = false);
     }
-    Object.defineProperty(BootstrapDatepickerDirective.prototype, "isShown", {
-        get: function () {
-            return this._isShown;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(BootstrapDatepickerDirective.prototype, "ngModel", {
-        set: function (value) {
-            this.tryUpdate(value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    BootstrapDatepickerDirective.prototype.ngOnInit = function () {
+    get isShown() {
+        return this._isShown;
+    }
+    set ngModel(value) {
+        this.tryUpdate(value);
+    }
+    ngOnInit() {
         this.initialize(this.options);
-    };
-    BootstrapDatepickerDirective.prototype.ngOnDestroy = function () {
+    }
+    ngOnDestroy() {
         this.destroy();
-    };
-    BootstrapDatepickerDirective.prototype.initialize = function (options) {
+    }
+    initialize(options) {
         $(this.el.nativeElement).datepicker(options);
-    };
-    BootstrapDatepickerDirective.prototype.destroy = function () {
+    }
+    destroy() {
         if (this.changedSubscription) {
             this.changedSubscription.unsubscribe();
             this.shownSubscription.unsubscribe();
             this.hiddenSubscription.unsubscribe();
         }
         $(this.el.nativeElement).datepicker('destroy');
-    };
-    BootstrapDatepickerDirective.prototype.show = function () {
+    }
+    show() {
         $(this.el.nativeElement).datepicker('show');
-    };
-    BootstrapDatepickerDirective.prototype.hide = function () {
+    }
+    hide() {
         $(this.el.nativeElement).datepicker('hide');
-    };
-    BootstrapDatepickerDirective.prototype.toggle = function () {
+    }
+    toggle() {
         this.isShown ? this.hide() : this.show();
-    };
-    BootstrapDatepickerDirective.prototype.tryUpdate = function (value) {
-        var _this = this;
+    }
+    tryUpdate(value) {
         clearTimeout(this.updateTimeout);
         if (!$(this.el.nativeElement).is(":focus")) {
             this.update(value);
         }
         else {
-            this.updateTimeout = setTimeout(function () {
-                _this.updateTimeout = null;
-                _this.tryUpdate(value);
+            this.updateTimeout = setTimeout(() => {
+                this.updateTimeout = null;
+                this.tryUpdate(value);
             }, 100);
         }
-    };
-    BootstrapDatepickerDirective.prototype.update = function (value) {
-        var _this = this;
-        setTimeout(function () { return $(_this.el.nativeElement).datepicker('update', value); });
-    };
-    BootstrapDatepickerDirective.prototype.setDate = function (value) {
-        var _this = this;
-        setTimeout(function () { return $(_this.el.nativeElement).datepicker('setDate', value); });
-    };
-    BootstrapDatepickerDirective.prototype.setUTCDate = function (value) {
-        var _this = this;
-        setTimeout(function () { return $(_this.el.nativeElement).datepicker('setUTCDate', value); });
-    };
-    BootstrapDatepickerDirective.prototype.clearDates = function () {
-        var _this = this;
-        setTimeout(function () { return $(_this.el.nativeElement).datepicker('clearDates'); });
-    };
-    BootstrapDatepickerDirective.prototype.getDate = function () {
+    }
+    update(value) {
+        setTimeout(() => $(this.el.nativeElement).datepicker('update', value));
+    }
+    setDate(value) {
+        setTimeout(() => $(this.el.nativeElement).datepicker('setDate', value));
+    }
+    setUTCDate(value) {
+        setTimeout(() => $(this.el.nativeElement).datepicker('setUTCDate', value));
+    }
+    clearDates() {
+        setTimeout(() => $(this.el.nativeElement).datepicker('clearDates'));
+    }
+    getDate() {
         $(this.el.nativeElement).datepicker('getDate');
-    };
-    BootstrapDatepickerDirective.prototype.getUTCDate = function () {
+    }
+    getUTCDate() {
         $(this.el.nativeElement).datepicker('getUTCDate');
-    };
-    return BootstrapDatepickerDirective;
-}());
+    }
+};
 __decorate([
-    core_1.Input(),
+    Input(),
     __metadata("design:type", Object)
 ], BootstrapDatepickerDirective.prototype, "options", void 0);
 __decorate([
-    core_1.Input(),
+    Input(),
     __metadata("design:type", Object),
     __metadata("design:paramtypes", [Object])
 ], BootstrapDatepickerDirective.prototype, "ngModel", null);
 __decorate([
-    core_1.Output(),
+    Output(),
     __metadata("design:type", Object)
 ], BootstrapDatepickerDirective.prototype, "ngModelChange", void 0);
 BootstrapDatepickerDirective = __decorate([
-    core_1.Directive({
+    Directive({
         selector: '[bootstrapDatepicker]',
         exportAs: 'bootstrap-datepicker'
     }),
-    __metadata("design:paramtypes", [core_1.ElementRef])
+    __metadata("design:paramtypes", [ElementRef])
 ], BootstrapDatepickerDirective);
-exports.BootstrapDatepickerDirective = BootstrapDatepickerDirective;
+export { BootstrapDatepickerDirective };
 //# sourceMappingURL=bootstrap-datepicker.directive.js.map

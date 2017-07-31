@@ -1,8 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var User = (function () {
+export class User {
     // Note: Using only optional constructor properties without backing store disables typescript's type checking for the type
-    function User(id, userName, fullName, email, jobTitle, phoneNumber, roles) {
+    constructor(id, userName, fullName, email, jobTitle, phoneNumber, roles) {
         this.id = id;
         this.userName = userName;
         this.fullName = fullName;
@@ -11,17 +9,11 @@ var User = (function () {
         this.phoneNumber = phoneNumber;
         this.roles = roles;
     }
-    Object.defineProperty(User.prototype, "friendlyName", {
-        get: function () {
-            var name = this.fullName || this.userName;
-            if (this.jobTitle)
-                name = this.jobTitle + " " + name;
-            return name;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return User;
-}());
-exports.User = User;
+    get friendlyName() {
+        let name = this.fullName || this.userName;
+        if (this.jobTitle)
+            name = this.jobTitle + " " + name;
+        return name;
+    }
+}
 //# sourceMappingURL=user.model.js.map
